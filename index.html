@@ -333,9 +333,9 @@ const SEC_ICON = {
   quiz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
 };
 const DEPTS = [
-  {id: 'print', name: 'Printing Technology', c: 'violet'},
-  {id: 'comp', name: 'Computer Engineering', c: 'teal'},
-  {id: 'eee', name: 'Electrical and Electronics Engineering', c: 'amber'}
+  {id: 'print', name: 'Printing Technology', c: 'violet', programCode: 'PT'},
+  {id: 'comp', name: 'Computer Engineering', c: 'teal', programCode: 'CT'},
+  {id: 'eee', name: 'Electrical & Electronics Engineering', c: 'amber', programCode: 'EE'}
 ];
 const SUBJ = {
   maths: {name: 'Mathematics', ic: 'Σ', c: 'blue', sec: [{id: 'workbook', name: 'Workbook', k: 'files'}, {id: 'questions', name: 'Question classes', k: 'quiz'}, {id: 'notes', name: 'Notes', k: 'notes'}]},
@@ -552,7 +552,19 @@ function deptView() {
     return '<button class="subj c-' + d.c + '" ' + nav({v: 'semester', id: m.id}) + '><span class="ico">S' + m.n + '</span><b>Semester ' + m.n + '</b><small>' +
       esc(n ? subs.slice(0, 3).map(x => x.name).join(', ') + (n > 3 ? ' and ' + (n - 3) + ' more' : '') : 'Subjects coming soon') + '</small><em>' + (n ? plural(n, 'subject') : 'No subjects yet') + '</em></button>';
   }).join('') + '</div>').join('');
-  return '<section class="hero small"><h2>' + esc(d.name) + '</h2><p>3 years, 6 semesters</p></section><div class="wrap">' + years + '</div>';
+  const officialBase = 'https://sitttrkerala.ac.in/index.php?prog=' + encodeURIComponent(d.programCode) + '&r=';
+  const resources = [
+    ['Official subjects & course-wise syllabus', officialBase + 'site%2Fdiploma-syllabus-courses', 'View the 2026 programme scheme and individual course descriptions'],
+    ['Model question papers — 2026', officialBase + 'site%2Fdiploma-modelqp-courses', 'Open the official programme-wise model paper index'],
+    ['Lab manuals — 2026', officialBase + 'site%2Fdiploma-lab-manual-courses', 'Open the official programme-wise practical manuals'],
+    ['Lab records — 2026', officialBase + 'site%2Fdiploma-lab-record-courses', 'Open the official programme-wise lab record materials'],
+    ['Learning resources library', 'https://sitttrkerala.ac.in/index.php?r=training%2Flearning-resources%2Flist-resources', 'Search official notes and learning materials by scheme, programme, semester and course'],
+    ['2026 Rules & Regulations', 'https://sitttrkerala.ac.in/index.php?filename=syllabus%2Frev2026%2Fdiploma-curriculum-2026-rules-and-regulations.pdf&r=site%2Fview-pdf', 'Read the official curriculum rules and assessment framework'],
+    ['Downloads & logbooks', 'https://sitttrkerala.ac.in/index.php?r=site%2Fdownloads', 'Find the 2026 diploma lab logbook and workshop logbook']
+  ];
+  const resourceRows = resources.map(x => '<a class="row official-resource" href="' + esc(x[1]) + '" target="_blank" rel="noopener noreferrer"><span class="ico c-green">↗</span><span class="ft"><b>' + esc(x[0]) + '</b><small>' + esc(x[2]) + '</small></span><span class="chev">›</span></a>').join('');
+  const official = '<section class="mock official-2026"><h2>Official Revision 2026 materials</h2><p>Verified SITTTR Kerala resources for ' + esc(d.name) + '. These links open the official source pages.</p><div class="list">' + resourceRows + '</div><p class="hint">Course lists and downloadable files are hosted by SITTTR. An internet connection is required to open them.</p></section>';
+  return '<section class="hero small"><h2>' + esc(d.name) + '</h2><p>3 years, 6 semesters · Revision 2026 official resources</p></section><div class="wrap">' + years + official + '</div>';
 }
 
 /* ----- Subject and section pages ----- */
