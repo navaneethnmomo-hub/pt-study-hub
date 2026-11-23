@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Polytechnic Study Hub</title>
+<meta name="description" content="Notes, question papers, practice tests and an AI study assistant for polytechnic students.">
+<meta name="theme-color" content="#1f4d36">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Study Hub">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+
+:root{color-scheme:light;--g1:#1f4d36;--g2:#2e6b4a;--g3:#4f9a6a;--ink:#173127;--ink2:#56705f;--line:rgba(46,107,74,.16);--glass:rgba(255,255,255,.8);--shadow:0 14px 34px -18px rgba(23,49,39,.38);--ok:#1d7a48;--bad:#b2281f}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:#e8f4df}
+body{margin:0;min-height:100vh;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:transparent;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:disabled{cursor:default}
+h1,h2,h3,h4,p{margin:0}
+h2{font:600 26px/1.15 Georgia,"Times New Roman",serif;color:var(--g1)}
+h3.fh{font:600 19px/1.2 Georgia,"Times New Roman",serif;color:var(--g1);margin:26px 2px 10px}
+.muted,small{color:var(--ink2)}
+#scene{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+#scene svg{width:100%;height:100%;display:block}
+.cl{animation:drift 30s ease-in-out infinite alternate}
+.cl.cl2{animation-duration:40s;animation-direction:alternate-reverse}
+@keyframes drift{from{transform:translateX(-40px)}to{transform:translateX(50px)}}
+.shine path{animation:shine 5.5s ease-in-out infinite}
+.shine path:nth-child(2){animation-delay:-1.8s}
+.shine path:nth-child(3){animation-delay:-3.2s}
+.shine path:nth-child(4){animation-delay:-4.4s}
+@keyframes shine{0%,100%{opacity:.25;transform:translateX(0)}50%{opacity:1;transform:translateX(16px)}}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;min-height:60px;padding:0 12px;background:rgba(31,77,54,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;box-shadow:0 8px 24px -14px rgba(10,35,25,.6)}
+.top h1{font:600 19px/1.2 Georgia,"Times New Roman",serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;letter-spacing:.01em}
+#back{flex:0 0 42px;height:42px;border:0;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;font-size:28px;line-height:1;transition:background .2s,transform .15s}
+#back:hover{background:rgba(255,255,255,.2)}
+#back:active{transform:scale(.94)}
+#back[hidden]{display:none}
+.hero{margin:18px auto 0;max-width:728px;width:calc(100% - 32px);padding:22px 22px 20px;border-radius:24px;background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(220,240,214,.88));border:1px solid rgba(255,255,255,.8);box-shadow:var(--shadow)}
+.hero p{color:var(--ink2);margin-top:4px}
+.hero.small{margin-top:14px}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 120px}
+.search{display:block;width:100%;height:52px;margin:0;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:var(--glass);box-shadow:0 8px 20px -16px rgba(23,49,39,.5);font-size:16px;outline:none;transition:box-shadow .2s,border-color .2s}
+.search:focus{border-color:var(--g3);box-shadow:0 0 0 4px rgba(79,154,106,.2)}
+#hq{margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:10px}
+.list{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-top:12px}
+.files{display:grid;gap:10px;margin-top:12px}
+.subj,.row,.frow{display:flex;align-items:center;gap:14px;width:100%;border:1px solid rgba(255,255,255,.85);background:var(--glass);color:var(--ink);text-align:left;border-radius:20px;box-shadow:0 10px 26px -18px rgba(23,49,39,.45);transition:transform .22s ease,box-shadow .22s ease,background .22s}
+.row,.frow{padding:14px 16px;min-height:70px}
+.frow{min-height:66px}
+.subj{flex-direction:column;align-items:flex-start;gap:8px;padding:16px;min-height:150px}
+.row:hover,.frow:hover,.subj:hover{transform:translateY(-2px);box-shadow:0 16px 32px -18px rgba(23,49,39,.5);background:rgba(255,255,255,.94)}
+.row:active,.frow:active,.subj:active{transform:scale(.985)}
+.ft{display:flex;flex-direction:column;min-width:0;flex:1}
+.ft b{font-size:16px;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.list > .row .ft b{white-space:normal;overflow-wrap:anywhere}
+.subj b{font:600 19px/1.2 Georgia,"Times New Roman",serif;color:var(--g1)}
+.subj small,.row small,.ft small{font-size:13px;line-height:1.35;color:var(--ink2)}
+.subj em{font-style:normal;font-weight:650;font-size:13px;color:var(--fg,var(--g2));margin-top:auto}
+.chev{color:var(--ink2);font-size:24px;line-height:1;opacity:.6;transition:transform .2s,opacity .2s}
+.row:hover .chev{transform:translateX(3px);opacity:1}
+.ico{display:grid;place-items:center;flex:0 0 46px;width:46px;height:46px;border-radius:15px;background:var(--bg);color:var(--fg);font:700 14px/1 system-ui;letter-spacing:.02em;box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}
+.ico svg{width:24px;height:24px}
+.subj .ico{width:44px;height:44px}
+.c-blue{--bg:#e2edfb;--fg:#1f5fa3}
+.c-teal{--bg:#dcf2ee;--fg:#0c6b6e}
+.c-violet{--bg:#ece6fb;--fg:#5b3fa3}
+.c-amber{--bg:#fcefd0;--fg:#7a5300}
+.c-green{--bg:#dff3e3;--fg:#1d7a48}
+.c-slate{--bg:#e8edf1;--fg:#3f4b5c}
+.badge{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;border-radius:14px;font:700 11px/1 system-ui;letter-spacing:.04em}
+.k-docs{background:#e2edfb;color:#1f5fa3}.k-photo{background:#fcefd0;color:#7a5300}.k-video{background:#dcf2ee;color:#0c6b6e}.k-audio{background:#ece6fb;color:#5b3fa3}.k-other{background:#e8edf1;color:#3f4b5c}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;min-height:46px;padding:0 20px;border:0;border-radius:14px;background:linear-gradient(135deg,#43965f,#2e6b4a);color:#fff;font-weight:650;text-decoration:none;text-align:center;box-shadow:0 10px 20px -12px rgba(46,107,74,.9);transition:transform .15s,filter .2s,box-shadow .2s}
+.btn:hover{filter:brightness(1.06);box-shadow:0 14px 26px -12px rgba(46,107,74,.95)}
+.btn:active{transform:scale(.97)}
+.btn.sm{min-height:38px;padding:0 15px;font-size:14px;border-radius:12px}
+.btn.ghost{background:rgba(255,255,255,.92);color:var(--g2);box-shadow:inset 0 0 0 1px var(--line)}
+.btn.danger{background:rgba(255,255,255,.92);color:var(--bad);box-shadow:inset 0 0 0 1px rgba(178,40,31,.25)}
+.btn.block{display:flex;width:100%}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+.bar .search{flex:1;min-width:160px;height:46px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px;margin-top:12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;min-height:36px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.9);font-size:14px;font-weight:600;color:var(--ink2);transition:background .2s,color .2s}
+.chip[aria-pressed="true"]{background:var(--g1);border-color:var(--g1);color:#fff}
+.meta{margin-top:10px;font-size:13px;color:var(--ink2)}
+.hint{margin-top:10px;font-size:14px;color:var(--ink2)}
+.foot{margin:26px 0 0;text-align:center;font-size:13px;color:var(--ink2)}
+.foot .chip{margin-left:6px;vertical-align:middle}
+.empty{margin-top:14px;padding:26px 22px;text-align:center;border:1.5px dashed rgba(46,107,74,.35);border-radius:20px;background:rgba(255,255,255,.6);color:var(--ink2)}
+.resume{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;padding:14px 16px;border-radius:20px;background:linear-gradient(135deg,#fffdf3,#fdf3d6);border:1px solid rgba(230,167,35,.35);box-shadow:var(--shadow)}
+.resume b{display:block;color:var(--g1)}
+.sechead{margin-top:8px}
+.sechead small{display:block;color:var(--ink2);font-weight:600;letter-spacing:.02em}
+details{margin-top:12px;padding:0 16px 16px;border-radius:20px;background:var(--glass);border:1px solid rgba(255,255,255,.85);box-shadow:0 10px 26px -18px rgba(23,49,39,.45);backdrop-filter:blur(8px)}
+summary{display:flex;flex-direction:column;gap:2px;padding:16px 0;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary small{color:var(--g2);font-weight:650}
+summary b{font:600 19px/1.2 Georgia,"Times New Roman",serif;color:var(--g1)}
+details h4{margin:14px 0 4px;color:var(--g2);font-size:15px}
+details ul{margin:0;padding-left:20px}
+details li{margin:4px 0;font-size:15px}
+.intro{margin:0 0 6px;font-size:15px;color:var(--ink2)}
+.tip{margin:14px 0;padding:12px 14px;border-radius:14px;background:#fdf3d6;color:#7a5300;font-size:14px}
+.mock{margin-top:16px;padding:20px;border-radius:22px;background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(220,242,238,.9));border:1px solid rgba(255,255,255,.85);box-shadow:var(--shadow)}
+.mock h2{font-size:22px;margin-bottom:6px}
+.mock p{margin:0 0 14px;color:var(--ink2)}
+.mod{padding:16px;border-radius:20px;background:var(--glass);border:1px solid rgba(255,255,255,.85);box-shadow:0 10px 26px -18px rgba(23,49,39,.45)}
+.mod small{color:var(--ink2);font-weight:600}
+.mod b{display:block;font:600 19px/1.25 Georgia,"Times New Roman",serif;color:var(--g1);margin:3px 0 4px}
+.mod p{margin:0 0 12px;color:var(--ink2);font-size:14px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:5px;margin-top:16px;border-radius:16px;background:rgba(255,255,255,.6);border:1px solid var(--line)}
+.tabs button{min-height:42px;border:0;border-radius:12px;background:transparent;color:var(--ink2);font-weight:650;transition:background .2s,color .2s}
+.tabs button[aria-selected="true"]{background:#fff;color:var(--g1);box-shadow:0 6px 16px -10px rgba(23,49,39,.5)}
+.qhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:16px}
+.qhead h2{font-size:22px}
+.qhead small{display:block;margin-top:2px}
+.pbar{height:9px;margin:14px 0;border-radius:99px;background:rgba(46,107,74,.14);overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#4f9a6a,#2e6b4a);transition:width .5s ease}
+.card{margin-top:14px;padding:18px;border-radius:20px;background:var(--glass);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 26px -18px rgba(23,49,39,.45);backdrop-filter:blur(8px)}
+.card small{font-weight:700;color:var(--g2);letter-spacing:.02em}
+.card h3{font:600 17px/1.5 system-ui;margin:6px 0 0;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.opts{display:grid;gap:9px;margin-top:12px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;min-height:50px;padding:11px 13px;border:1px solid var(--line);border-radius:15px;background:#fff;color:var(--ink);text-align:left;transition:border-color .2s,background .2s,transform .15s}
+.opt:not([disabled]):hover{border-color:var(--g3)}
+.opt:not([disabled]):active{transform:scale(.99)}
+.opt b{flex:0 0 28px;width:28px;height:28px;border:1.6px solid var(--ink2);border-radius:50%;display:grid;place-items:center;font-size:12px;transition:all .2s}
+.opt span{min-width:0;overflow-wrap:anywhere;line-height:1.4}
+.opt em{display:block;margin-left:auto;font-style:normal;font-size:12px;font-weight:700;color:var(--ok)}
+.opt.sel{border-color:var(--g2);background:#eef8f0}.opt.sel b{background:var(--g2);border-color:var(--g2);color:#fff}
+.opt.ok{border-color:var(--ok);background:#e6f6ec}.opt.ok b{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad);background:#fcebe9}.opt.bad b{background:var(--bad);border-color:var(--bad);color:#fff}
+.why{margin-top:12px;padding:12px 14px;border-radius:14px;background:#f0f7f1;font-size:14px;color:var(--ink2)}
+.dock{position:sticky;bottom:0;z-index:4;display:flex;justify-content:space-between;align-items:center;gap:12px;margin:16px -16px 0;padding:13px 16px calc(13px + env(safe-area-inset-bottom,0px));background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line);box-shadow:0 -12px 30px -22px rgba(23,49,39,.5)}
+.dock span{font-weight:650;color:var(--ink)}
+.result{margin-top:16px;padding:22px;border-radius:24px;background:var(--glass);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.score{font:600 56px/1 Georgia,"Times New Roman",serif;margin:8px 0 6px;color:var(--g1)}
+.score span{font:500 18px system-ui;color:var(--ink2)}
+.per{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}
+.per div{padding:12px;border-radius:14px;background:#f5faf6;border:1px solid var(--line)}
+.per b{display:block;font-size:14px;color:var(--ink)}
+.per small{color:var(--ink2)}
+.stack{display:grid;gap:10px;margin-top:16px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stats div{padding:14px 12px;border-radius:18px;background:var(--glass);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 24px -18px rgba(23,49,39,.45)}
+.stats b{display:block;font:600 24px/1.1 Georgia,"Times New Roman",serif;color:var(--g1)}
+.stats small{font-size:12px}
+.hrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:var(--glass);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 24px -18px rgba(23,49,39,.45)}
+.hrow b{display:block;color:var(--ink)}
+.preview{display:grid;place-items:center;min-height:220px;margin-top:14px;border-radius:22px;background:radial-gradient(circle at 50% 30%,#2a4a3b,#10231a);color:#e4f0e8;overflow:hidden;box-shadow:var(--shadow)}
+.preview img,.preview video{display:block;max-width:100%;max-height:70vh}
+.preview audio{margin:18px;width:calc(100% - 36px)}
+.preview iframe{display:block;width:100%;height:70vh;border:0;background:#fff}
+.preview pre{align-self:stretch;margin:0;padding:16px;max-height:70vh;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;color:#e4f0e8;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace}
+.preview p{padding:26px;text-align:center;color:#cfe3d4}
+.facts{margin:14px 0 0;padding:4px 16px;border-radius:20px;background:var(--glass);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 24px -18px rgba(23,49,39,.45)}
+.facts div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.facts div:last-child{border-bottom:0}
+.facts dt{color:var(--ink2);font-size:14px}
+.facts dd{margin:0;font-weight:650;text-align:right;min-width:0;overflow-wrap:anywhere;color:var(--ink)}
+.facts select{max-width:100%;min-height:42px;padding:6px 10px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:15px}
+#pick{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.ag-set{display:grid;gap:10px;padding:14px;border:1px dashed rgba(46,107,74,.35);border-radius:16px;background:rgba(255,255,255,.6)}
+.ag-set label,.assist label{display:grid;gap:5px;font-size:14px;color:var(--ink2);font-weight:600}
+.ag-txt{margin-top:7px;white-space:pre-wrap;font-size:15px;line-height:1.6;color:var(--ink)}
+.doubt{padding:14px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:0 8px 20px -16px rgba(23,49,39,.4);animation:rise .4s cubic-bezier(.2,.7,.2,1) backwards}
+.doubt.done{opacity:.55}
+.doubt b{display:block;font-size:15px;color:var(--g1)}
+.doubt small{color:var(--ink2)}
+.ask{display:flex;gap:8px}
+.ask .search{flex:1;height:46px;margin:0}
+.assist-btn{position:fixed;right:16px;bottom:20px;z-index:12;height:50px;padding:0 20px;border:0;border-radius:26px;background:linear-gradient(135deg,#4f9a6a,#1f4d36);color:#fff;font-weight:700;letter-spacing:.02em;box-shadow:0 16px 30px -12px rgba(31,77,54,.8);transition:transform .2s,box-shadow .2s}
+.assist-btn:hover{transform:translateY(-2px);box-shadow:0 20px 34px -12px rgba(31,77,54,.85)}
+.assist-btn[hidden]{display:none}
+.assist{position:fixed;z-index:13;top:0;right:0;bottom:0;width:min(400px,100%);display:flex;flex-direction:column;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-left:1px solid var(--line);box-shadow:-18px 0 44px -24px rgba(23,49,39,.5);animation:sheetIn .42s cubic-bezier(.2,.7,.2,1)}
+.assist[hidden]{display:none}
+@keyframes sheetIn{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.assist-h{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.assist-h b{font:600 18px/1.2 Georgia,"Times New Roman",serif;color:var(--g1)}
+.assist-acts{display:flex;gap:6px}
+.assist-b{flex:1;overflow:auto;padding:16px 18px;display:grid;align-content:start;gap:12px}
+.assist-f{display:grid;gap:9px;padding:14px 18px 18px;border-top:1px solid var(--line);background:rgba(255,255,255,.7)}
+.assist select,.assist textarea,.assist input{width:100%;min-height:44px;padding:9px 13px;border:1px solid var(--line);border-radius:13px;background:#fff;font:inherit;font-size:15px;color:var(--ink);outline:none}
+.assist textarea{min-height:66px;resize:vertical}
+.assist select:focus,.assist textarea:focus,.assist input:focus{border-color:var(--g3);box-shadow:0 0 0 3px rgba(79,154,106,.2)}
+.as-out{display:grid;gap:10px}
+.as-out:empty{display:none}
+@media (max-width:640px){.assist{top:auto;left:0;right:0;height:80vh;width:auto;border-left:0;border-top:1px solid var(--line);border-radius:24px 24px 0 0;animation:sheetUp .42s cubic-bezier(.2,.7,.2,1)}}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+body.in-quiz .assist-btn{display:none}
+#toast{position:fixed;left:50%;bottom:20px;z-index:30;max-width:calc(100% - 32px);padding:12px 18px;border-radius:16px;background:rgba(23,49,39,.94);color:#fff;font-size:14px;font-weight:600;text-align:center;box-shadow:0 14px 30px -14px rgba(10,35,25,.7);opacity:0;pointer-events:none;transform:translate(-50%,16px);transition:opacity .25s,transform .25s}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+.go-fwd{animation:slideInR .45s cubic-bezier(.2,.7,.2,1) backwards}
+.go-back{animation:slideInL .45s cubic-bezier(.2,.7,.2,1) backwards}
+@keyframes slideInR{from{opacity:0;transform:translate3d(32px,0,0)}to{opacity:1;transform:none}}
+@keyframes slideInL{from{opacity:0;transform:translate3d(-32px,0,0)}to{opacity:1;transform:none}}
+.rise{animation:rise .5s cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i,0) * 55ms + 60ms)}
+@keyframes rise{from{opacity:0;transform:translate3d(0,16px,0)}to{opacity:1;transform:none}}
+#intro{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 38%,#fbfef8 0%,#e7f5df 62%,#d6ecc9 100%);overflow:hidden;transition:opacity .6s ease}
+#intro.out{opacity:0;pointer-events:none}
+#intro canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#intro .intro-t{position:absolute;left:0;right:0;bottom:24%;margin:0;text-align:center;color:var(--g1);font:600 clamp(18px,4.6vw,24px)/1.2 Georgia,"Times New Roman",serif;letter-spacing:.02em;opacity:0;animation:introIn .8s 2.1s forwards}
+#intro .intro-skip{position:absolute;left:0;right:0;bottom:9%;margin:0;text-align:center;color:#5d7a67;font-size:13px;opacity:0;animation:introIn .6s 1.2s forwards}
+@keyframes introIn{to{opacity:1}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}#intro .intro-skip{display:none}}
+@media (max-width:360px){.grid{gap:10px}.subj b{font-size:17px}.hero h2{font-size:23px}}
+
+
+/* home layout: heading and search on top, departments on the left, same-size cards */
+.home-top{display:grid;gap:14px;max-width:760px;margin:18px auto 0;padding:0 16px}
+.home-top .hero{margin:0;width:auto;max-width:none}
+.home-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.home-tools #hq{margin:0}
+.assist-state{display:inline-flex;align-items:center;gap:9px;min-height:52px;padding:0 16px;border:1px solid var(--line);border-radius:999px;background:var(--glass);box-shadow:0 8px 20px -16px rgba(23,49,39,.5);color:var(--ink);font-size:14px;font-weight:650;white-space:nowrap;transition:background .2s,box-shadow .2s}
+.assist-state:hover{background:#fff;box-shadow:0 12px 24px -16px rgba(23,49,39,.55)}
+.assist-state .lbl{color:var(--ink2)}
+.assist-state .sw{position:relative;flex:0 0 auto;width:40px;height:23px;border-radius:999px;background:#c5d6c9;transition:background .25s}
+.assist-state .sw::after{content:"";position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .25s}
+.assist-state.on .sw{background:var(--g3)}
+.assist-state.on .sw::after{transform:translateX(17px)}
+.assist-state b{min-width:22px;color:var(--ink2)}
+.assist-state.on b{color:var(--g2)}
+.wrap.home{margin:0 auto;padding:0 16px 120px}
+.depts{grid-template-columns:1fr;gap:12px;grid-auto-rows:1fr}
+.depts .row.dept{position:relative;min-height:86px}
+.depts .row.dept .ft b{white-space:normal;line-height:1.3}
+@media (max-width:379px){.home-tools{grid-template-columns:1fr}}
+@media (min-width:720px){
+.home-top{max-width:none;margin:0;padding:28px 40px 0;grid-template-columns:minmax(0,1fr) minmax(300px,460px);align-items:start;gap:28px}
+.home-tools{grid-template-columns:minmax(0,1fr) auto}
+.wrap.home{max-width:none;margin:0;padding:24px 40px 140px}
+.wrap.home .foot{text-align:left}
+.depts{grid-template-columns:repeat(auto-fill,250px);justify-content:start;gap:18px}
+.depts .row.dept{flex-direction:column;align-items:flex-start;justify-content:space-between;gap:16px;min-height:178px;padding:20px}
+.depts .row.dept .ico{width:54px;height:54px;flex-basis:54px}
+.depts .row.dept .ico svg{width:26px;height:26px}
+.depts .row.dept .ft{flex:0 0 auto;width:100%}
+.depts .row.dept .ft b{font:600 19px/1.25 Georgia,"Times New Roman",serif;color:var(--g1);white-space:normal}
+.depts .row.dept .chev{position:absolute;top:20px;right:20px}
+}
+
+/* page slides stay inside the screen; phone search and assistant switch fit side by side */
+#app{overflow-x:clip}
+@media (max-width:719px){
+.home-tools #hq{font-size:15px;padding:0 16px}
+.assist-state{padding:0 12px;gap:7px;font-size:13px}
+}
+
+/* installed app: status-bar safe area, install button, no pull-to-refresh */
+html{overscroll-behavior-y:contain}
+.top{padding-top:env(safe-area-inset-top,0px)}
+#install{margin-left:auto;flex:0 0 auto;min-height:36px;padding:0 14px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.16);color:#fff;font:650 14px/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background .2s}
+#install:hover{background:rgba(255,255,255,.26)}
+#install[hidden]{display:none}
+</style>
+</head>
+<body>
+<div id="scene" aria-hidden="true"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6fbf1"/><stop offset=".55" stop-color="#e6f4dc"/><stop offset="1" stop-color="#d2eac4"/></linearGradient>
+<radialGradient id="gSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffdf0"/><stop offset="1" stop-color="#fffdf0" stop-opacity="0"/></radialGradient>
+<linearGradient id="gFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3d9a7"/><stop offset="1" stop-color="#cfe9c1"/></linearGradient>
+<linearGradient id="gMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86c27f"/><stop offset="1" stop-color="#a6d79b"/></linearGradient>
+<linearGradient id="gField" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ea866"/><stop offset="1" stop-color="#77bb74"/></linearGradient>
+<linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9f2ee"/><stop offset="1" stop-color="#8ccfc4"/></linearGradient>
+</defs>
+<rect width="1440" height="900" fill="url(#gSky)"/>
+<circle cx="1110" cy="190" r="240" fill="url(#gSun)"/>
+<g class="cl" fill="#fff" opacity=".92"><ellipse cx="600" cy="170" rx="112" ry="26"/><ellipse cx="662" cy="148" rx="64" ry="36"/><ellipse cx="552" cy="158" rx="56" ry="26"/></g>
+<g class="cl cl2" fill="#fff" opacity=".78"><ellipse cx="800" cy="112" rx="92" ry="20"/><ellipse cx="855" cy="96" rx="50" ry="28"/></g>
+<path fill="url(#gFar)" d="M0 470C150 370 280 400 400 440C520 480 620 380 760 415C900 450 990 355 1130 392C1260 426 1350 372 1440 405V900H0Z"/>
+<path fill="url(#gMid)" d="M0 560C170 480 300 520 430 560C560 600 700 500 860 530C1010 560 1130 500 1270 520C1350 532 1400 515 1440 520V900H0Z"/>
+<g><ellipse cx="96" cy="520" rx="20" ry="30" fill="#5a9d5e"/><rect x="94" y="544" width="4" height="14" fill="#4b7d4f"/><ellipse cx="144" cy="536" rx="14" ry="22" fill="#66a866"/><rect x="142" y="554" width="3" height="10" fill="#4b7d4f"/><ellipse cx="1196" cy="520" rx="22" ry="32" fill="#5a9d5e"/><rect x="1194" y="546" width="4" height="15" fill="#4b7d4f"/><ellipse cx="1252" cy="534" rx="15" ry="23" fill="#66a866"/><rect x="1250" y="552" width="3" height="11" fill="#4b7d4f"/></g>
+<path fill="url(#gField)" d="M0 650C300 610 520 640 760 650C1000 660 1200 630 1440 640V900H0Z"/>
+<ellipse cx="610" cy="790" rx="430" ry="72" fill="url(#gWater)"/>
+<g class="shine" fill="none" stroke="#fff" stroke-linecap="round"><path d="M340 770h110" stroke-width="3" stroke-opacity=".75"/><path d="M520 800h150" stroke-width="2.5" stroke-opacity=".6"/><path d="M700 764h120" stroke-width="3" stroke-opacity=".7"/><path d="M820 812h90" stroke-width="2" stroke-opacity=".5"/></g>
+<g fill="#4f8f54"><ellipse cx="70" cy="752" rx="34" ry="52"/><rect x="66" y="798" width="8" height="34"/><ellipse cx="1376" cy="748" rx="38" ry="56"/><rect x="1371" y="798" width="9" height="36"/></g>
+<g fill="none" stroke="#3d7c44" stroke-width="3" stroke-linecap="round"><path d="M200 848l5-14 5 14"/><path d="M216 858l4-11 4 11"/><path d="M1180 850l5-14 5 14"/><path d="M1196 860l4-11 4 11"/></g>
+</svg></div>
+<div id="intro" aria-hidden="true"><canvas id="intro-c"></canvas><p class="intro-t">Polytechnic Study Hub</p><p class="intro-skip">Tap to skip</p></div>
+<header class="top"><button id="back" aria-label="Back" hidden>&#8249;</button><h1 id="ttl">Polytechnic Study Hub</h1><button id="install" type="button" hidden>Install app</button></header>
+<main id="app"></main>
+<input id="pick" type="file" multiple tabindex="-1" aria-hidden="true">
+<div id="toast" role="status" aria-live="polite"></div>
+<button id="assist-btn" class="assist-btn" data-a="assist-open" hidden>Assistant</button>
+<aside id="assist" class="assist" hidden aria-label="Study assistant">
+  <div class="assist-h"><b>Study assistant</b><span class="assist-acts"><button class="chip" data-a="assist-off">Turn off</button><button class="chip" data-a="assist-close">Close</button></span></div>
+  <div class="assist-b">
+    <div id="as-setup" class="ag-set" hidden>
+      <label>Your API key<input id="as-key" type="password" autocomplete="off" placeholder="Paste your key"></label>
+      <label>Model<select id="as-model"><option value="claude-sonnet-5-5">Sonnet 5.5 (most thorough)</option><option value="claude-haiku-5-5">Haiku 5.5 (faster, cheaper)</option></select></label>
+      <div class="btns"><button class="btn sm" data-a="as-save">Save key</button></div>
+      <p class="small">Your key stays in this browser only. Questions are billed to your Anthropic account. Notes are sent to Anthropic only when you ask.</p>
+    </div>
+    <label>Answer from<select id="as-scope" aria-label="Which notes to check"></select></label>
+    <div id="as-out" class="as-out"></div>
+  </div>
+  <div class="assist-f">
+    <textarea id="as-q" rows="2" placeholder="Ask anything about your notes" aria-label="Your question"></textarea>
+    <div class="btns"><button class="btn sm" data-a="as-ask">Ask</button><button class="btn sm ghost" data-a="as-doubts">Check doubts</button><button class="btn sm ghost" data-a="as-clean">Clean note</button><button class="btn sm ghost" data-a="as-key">Key</button></div>
+    <p id="as-status" class="small"></p>
+  </div>
+</aside>
+<script>
+'use strict';
+/* ----- Data: maths questions and notes from your file (answer key already shuffled) ----- */
+const BANK = [{"t": "Matrices and Determinants", "s": "Module 1", "u": "Matrix basics, operations, determinants, inverse and Cramer’s rule", "q": [{"q": "A matrix has 2 rows and 3 columns. What is its order?", "o": ["2 × 3", "6 × 1", "2 + 3", "3 × 2"], "a": 0, "e": "The order of a matrix is written as rows × columns. Therefore, 2 rows and 3 columns give order 2 × 3."}, {"q": "If A = [[5, 8, 2], [3, 6, 9]], what is the element a₂₃?", "o": ["3", "6", "9", "8"], "a": 2, "e": "a₂₃ means the element in row 2, column 3. That element is 9."}, {"q": "Which condition defines a square matrix?", "o": ["The number of rows equals the number of columns", "All elements are equal", "It has one row only", "All elements are zero"], "a": 0, "e": "A square matrix has the same number of rows and columns, such as 2 × 2 or 3 × 3."}, {"q": "Which of the following is a diagonal matrix?", "o": ["[[1, 1], [1, 1]]", "[[0, 4], [7, 0]]", "[[4, 0], [0, 7]]", "[[4, 2], [0, 7]]"], "a": 2, "e": "A diagonal matrix is square and every element outside the main diagonal is zero."}, {"q": "In an identity matrix, the diagonal elements are ______ and all other elements are ______.", "o": ["equal; unequal", "1; 0", "0; 1", "−1; 0"], "a": 1, "e": "An identity matrix has 1s on the main diagonal and 0s everywhere else."}, {"q": "If A is of order 2 × 3, what is the order of Aᵀ?", "o": ["2 × 3", "2 × 2", "3 × 2", "3 × 3"], "a": 2, "e": "Taking the transpose interchanges rows and columns. Hence 2 × 3 becomes 3 × 2."}, {"q": "If A = [[1, 2], [3, 4]] and B = [[4, 1], [0, 2]], what is the element in row 2, column 1 of A + B?", "o": ["1", "4", "3", "7"], "a": 2, "e": "Add corresponding elements. The required entry is 3 + 0 = 3."}, {"q": "If A = [[1, −3], [0, 4]], what is the element in row 1, column 2 of −2A?", "o": ["−3", "6", "−6", "3"], "a": 1, "e": "Scalar multiplication multiplies every entry by −2. Thus −2 × (−3) = 6."}, {"q": "For matrices A of order m × p and B of order p × n, what is the order of AB?", "o": ["m × n", "m × p", "n × m", "p × p"], "a": 0, "e": "Matrix multiplication is possible when the inner dimensions match. The product has the outer dimensions m × n."}, {"q": "The product of a 2 × 3 matrix and a 3 × 4 matrix, when defined, has what order?", "o": ["2 × 3", "4 × 2", "3 × 3", "2 × 4"], "a": 3, "e": "The inner dimensions 3 and 3 match. The resulting matrix has the outer dimensions 2 × 4."}, {"q": "Find the determinant of [[3, 2], [5, 4]].", "o": ["22", "2", "−1", "−2"], "a": 1, "e": "For [[a, b], [c, d]], determinant = ad − bc = 3 × 4 − 2 × 5 = 12 − 10 = 2."}, {"q": "The determinant of [[2, 3], [4, 5]] is:", "o": ["22", "2", "−1", "−2"], "a": 3, "e": "ad − bc = 2 × 5 − 3 × 4 = 10 − 12 = −2."}, {"q": "A square matrix with determinant zero is called:", "o": ["Non-singular", "Singular", "Identity", "Scalar"], "a": 1, "e": "A matrix with determinant 0 is singular and has no inverse."}, {"q": "Find the determinant of the upper triangular matrix [[2, 1, 0], [0, 3, 4], [0, 0, 5]].", "o": ["15", "10", "60", "30"], "a": 3, "e": "The determinant of a triangular matrix is the product of its diagonal entries: 2 × 3 × 5 = 30."}, {"q": "For A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]], find the minor M₁₂.", "o": ["6", "−6", "−3", "3"], "a": 1, "e": "Delete row 1 and column 2. The remaining determinant is |4 6; 7 9| = 4 × 9 − 6 × 7 = 36 − 42 = −6."}, {"q": "If the minor M₁₂ = −6, what is the cofactor C₁₂?", "o": ["6", "12", "−6", "0"], "a": 0, "e": "Cᵢⱼ = (−1)ⁱ⁺ʲ Mᵢⱼ. Since 1 + 2 is odd, C₁₂ = −M₁₂ = 6."}, {"q": "What is the sign of the cofactor C₂₃?", "o": ["Positive", "Cannot be determined", "Negative", "Zero always"], "a": 2, "e": "The cofactor sign is (−1)^(i+j). For C₂₃, 2 + 3 = 5, which is odd, so the sign is negative."}, {"q": "Find the determinant of [[1, 2, 3], [0, 4, 5], [1, 0, 6]].", "o": ["22", "24", "20", "18"], "a": 0, "e": "Expand along the first row: 1(24) − 2(−5) + 3(−4) = 24 + 10 − 12 = 22."}, {"q": "The adjoint of a square matrix is the:", "o": ["Sum of its diagonal elements", "Inverse of its determinant", "Determinant of its transpose", "Transpose of its cofactor matrix"], "a": 3, "e": "The adjoint (adjugate) is obtained by taking the transpose of the cofactor matrix."}, {"q": "A square matrix has an inverse if and only if its determinant is:", "o": ["One", "Negative", "Non-zero", "Zero"], "a": 2, "e": "The inverse formula is A⁻¹ = adj(A)/|A|. It exists only when |A| ≠ 0."}, {"q": "Find the inverse of A = [[1, 2], [3, 4]].", "o": ["[[-2, 1], [3/2, −1/2]]", "[[2, −1], [−3/2, 1/2]]", "[[−2, −1], [−3/2, −1/2]]", "[[4, 2], [3, 1]]"], "a": 0, "e": "The determinant is 1×4 − 2×3 = −2. The adjoint is [[4, −2], [−3, 1]]. Dividing by −2 gives [[−2, 1], [3/2, −1/2]]."}, {"q": "For C = [[2, 4], [1, 2]], why does C have no inverse?", "o": ["Its trace is zero", "Its determinant is zero", "Its entries are positive", "It is not square"], "a": 1, "e": "The determinant is 2×2 − 4×1 = 0. A singular matrix has no inverse."}, {"q": "Solve the system 2x + y = 5 and x − y = 1.", "o": ["x = 2, y = 1", "x = 3, y = −1", "x = 1, y = 3", "x = 1, y = 2"], "a": 0, "e": "Adding the equations gives 3x = 6, so x = 2. Substituting into x − y = 1 gives y = 1."}, {"q": "In Cramer’s rule for two unknowns, D is the determinant of the:", "o": ["Dy matrix", "Dx matrix", "Constants column", "Coefficient matrix"], "a": 3, "e": "D is the determinant of the coefficient matrix. A unique solution exists when D ≠ 0."}, {"q": "Solve x + y + z = 6, x − y = 0 and z = 2.", "o": ["(3, 3, 0)", "(2, 1, 3)", "(1, 1, 4)", "(2, 2, 2)"], "a": 3, "e": "From z = 2 and x = y, the first equation gives 2x + 2 = 6. Thus x = y = 2 and z = 2."}]}, {"t": "Trigonometry", "s": "Module 2", "u": "Angles, trigonometric ratios, ASTC, reduction and compound angles", "q": [{"q": "An angle measuring 45° is classified as:", "o": ["Right", "Acute", "Obtuse", "Reflex"], "a": 1, "e": "An acute angle is greater than 0° and less than 90°. Therefore, 45° is acute."}, {"q": "An angle measuring 225° is classified as:", "o": ["Acute", "Straight", "Obtuse", "Reflex"], "a": 3, "e": "A reflex angle is greater than 180° and less than 360°. Therefore, 225° is reflex."}, {"q": "A straight angle measures:", "o": ["270°", "90°", "360°", "180°"], "a": 3, "e": "A straight angle measures exactly 180°."}, {"q": "In a right-angled triangle, sin θ is:", "o": ["Adjacent / hypotenuse", "Hypotenuse / opposite", "Opposite / hypotenuse", "Opposite / adjacent"], "a": 2, "e": "Sine is defined as the length of the side opposite θ divided by the hypotenuse."}, {"q": "In a right-angled triangle, cos θ is:", "o": ["Opposite / adjacent", "Opposite / hypotenuse", "Hypotenuse / adjacent", "Adjacent / hypotenuse"], "a": 3, "e": "Cosine is adjacent side divided by the hypotenuse."}, {"q": "The trigonometric ratio tan θ is equal to:", "o": ["sin θ / cos θ", "cos θ / sin θ", "1 / sin θ", "1 / cos θ"], "a": 0, "e": "The quotient identity is tan θ = sin θ / cos θ."}, {"q": "What is the value of sin 30°?", "o": ["√2/2", "1", "1/2", "√3/2"], "a": 2, "e": "The standard trigonometric value is sin 30° = 1/2."}, {"q": "What is the value of cos 60°?", "o": ["√3/2", "1/2", "1", "0"], "a": 1, "e": "The standard trigonometric value is cos 60° = 1/2."}, {"q": "What is the value of tan 45°?", "o": ["0", "1/√3", "1", "√3"], "a": 2, "e": "Since sin 45° and cos 45° are equal, tan 45° = 1."}, {"q": "A right triangle has hypotenuse 5 cm. For angle θ, the opposite side is 3 cm. Find sin θ.", "o": ["3/5", "4/5", "5/3", "3/4"], "a": 0, "e": "sin θ = opposite/hypotenuse = 3/5."}, {"q": "Which identity is correct for sec θ?", "o": ["sec θ = cos θ/sin θ", "sec θ = 1/sin θ", "sec θ = sin θ/cos θ", "sec θ = 1/cos θ"], "a": 3, "e": "Secant is the reciprocal of cosine: sec θ = 1/cos θ."}, {"q": "Which is the correct reciprocal identity?", "o": ["cosec θ = 1/sin θ", "cosec θ = 1/cos θ", "cosec θ = tan θ", "cosec θ = sin θ"], "a": 0, "e": "Cosecant is the reciprocal of sine: cosec θ = 1/sin θ."}, {"q": "Choose the correct Pythagorean identity.", "o": ["tan²θ + sec²θ = 1", "sin²θ + cos²θ = 1", "1 + sin²θ = cos²θ", "sin²θ − cos²θ = 1"], "a": 1, "e": "The fundamental Pythagorean relation is sin²θ + cos²θ = 1."}, {"q": "Which Pythagorean relation is correct?", "o": ["1 + sec²θ = tan²θ", "1 + tan²θ = sec²θ", "1 + cot²θ = sec²θ", "tan²θ − sec²θ = 1"], "a": 1, "e": "Dividing sin²θ + cos²θ = 1 by cos²θ gives tan²θ + 1 = sec²θ."}, {"q": "According to the ASTC rule, which ratio is positive in the third quadrant?", "o": ["Tangent only", "All three", "Sine only", "Cosine only"], "a": 0, "e": "ASTC means All in quadrant I, Sine in II, Tangent in III and Cosine in IV. Thus tangent is positive in quadrant III."}, {"q": "According to the ASTC rule, in which quadrant is cosine positive?", "o": ["First quadrant only", "Fourth quadrant", "Third quadrant", "Second quadrant"], "a": 1, "e": "The ASTC rule states that cosine is positive in the fourth quadrant (as well as all ratios in the first quadrant)."}, {"q": "If sin θ = 3/5 and θ is acute, find cos θ.", "o": ["4/5", "5/3", "3/5", "5/4"], "a": 0, "e": "For an acute angle, cosine is positive. Using sin²θ + cos²θ = 1 gives cos θ = √(1 − 9/25) = 4/5."}, {"q": "Evaluate sin 150°.", "o": ["−1/2", "√3/2", "1/2", "−√3/2"], "a": 2, "e": "sin 150° = sin(180° − 30°) = sin 30° = 1/2."}, {"q": "Evaluate cos 120°.", "o": ["√3/2", "−√3/2", "−1/2", "1/2"], "a": 2, "e": "cos 120° = cos(180° − 60°) = −cos 60° = −1/2."}, {"q": "Evaluate tan 225°.", "o": ["0", "−1", "√3", "1"], "a": 3, "e": "tan 225° = tan(180° + 45°) = tan 45° = 1."}, {"q": "Which reduction formula is correct?", "o": ["sin(360° − θ) = −sin θ", "cos(360° − θ) = −cos θ", "tan(360° − θ) = tan θ", "sin(360° − θ) = sin θ"], "a": 0, "e": "In the fourth quadrant sine is negative, so sin(360° − θ) = −sin θ."}, {"q": "Choose the correct co-function identity.", "o": ["sin(90° − θ) = −cos θ", "tan(90° − θ) = tan θ", "cos(90° − θ) = sin θ", "cos(90° − θ) = cos θ"], "a": 2, "e": "The reduction formula gives cos(90° − θ) = sin θ."}, {"q": "Which is the correct formula for sin(A + B)?", "o": ["cos A sin B + sin A cos B with a minus sign", "sin A cos B + cos A sin B", "cos A cos B − sin A sin B", "sin A cos B − cos A sin B"], "a": 1, "e": "The compound-angle identity is sin(A + B) = sin A cos B + cos A sin B."}, {"q": "Which is the correct formula for cos(A − B)?", "o": ["cos A cos B − sin A sin B", "cos A cos B + sin A sin B", "sin A cos B − cos A sin B", "sin A sin B − cos A cos B"], "a": 1, "e": "The compound-angle identity is cos(A − B) = cos A cos B + sin A sin B."}, {"q": "Using compound-angle identities, sin 75° is:", "o": ["(√3 − 1)/2", "(√3 + 1)/2", "(√6 − √2)/4", "(√6 + √2)/4"], "a": 3, "e": "sin 75° = sin(45° + 30°) = sin45 cos30 + cos45 sin30 = (√6 + √2)/4."}]}, {"t": "Coordinate Geometry", "s": "Module 3", "u": "Slope, straight-line equations, angles between lines and circles", "q": [{"q": "Find the slope of the line joining (1, 2) and (3, 6).", "o": ["2", "3", "1", "4"], "a": 0, "e": "Slope m = (y₂ − y₁)/(x₂ − x₁) = (6 − 2)/(3 − 1) = 4/2 = 2."}, {"q": "The slope of a horizontal line is:", "o": ["1", "0", "Undefined", "−1"], "a": 1, "e": "A horizontal line has no vertical change, so its slope is zero."}, {"q": "The slope of a vertical line is:", "o": ["0", "Undefined", "−1", "1"], "a": 1, "e": "For a vertical line, x₂ − x₁ = 0. Division by zero makes the slope undefined."}, {"q": "Which formula gives the slope through (x₁, y₁) and (x₂, y₂)?", "o": ["(y₁ − y₂)/(x₁ + x₂)", "(x₁ + x₂)/(y₁ + y₂)", "(y₂ − y₁)/(x₂ − x₁)", "(x₂ − x₁)/(y₂ − y₁)"], "a": 2, "e": "The slope is the change in y divided by the change in x: (y₂ − y₁)/(x₂ − x₁)."}, {"q": "A line has slope 2 and passes through (1, 3). Which is its slope-point equation?", "o": ["y − 1 = 3(x − 2)", "y − 3 = 2(x − 1)", "y + 3 = 2(x + 1)", "y = 2x − 3"], "a": 1, "e": "The slope-point form is y − y₁ = m(x − x₁). Substituting m = 2 and (x₁, y₁) = (1, 3) gives y − 3 = 2(x − 1)."}, {"q": "Find the equation of a line with slope −1 passing through (0, 4).", "o": ["y = −x − 4", "y = 4x − 1", "y = −x + 4", "y = x + 4"], "a": 2, "e": "Using y − 4 = −1(x − 0), we obtain y = −x + 4."}, {"q": "A line has slope 1. What is its angle of inclination?", "o": ["60°", "30°", "45°", "90°"], "a": 2, "e": "The slope m = tan θ. Since tan 45° = 1, the angle of inclination is 45°."}, {"q": "Find the angle between two lines with slopes 1 and −1.", "o": ["0°", "30°", "45°", "90°"], "a": 3, "e": "The slopes have product 1 × (−1) = −1, so the lines are perpendicular and the angle is 90°."}, {"q": "Which formula is used to find the angle θ between two lines of slopes m₁ and m₂?", "o": ["tan θ = m₁ − m₂", "tan θ = |(m₂ − m₁)/(1 + m₁m₂)|", "tan θ = (m₁ + m₂)/(1 − m₁m₂)", "tan θ = m₁m₂"], "a": 1, "e": "The angle formula is tan θ = |(m₂ − m₁)/(1 + m₁m₂)|, with the appropriate limiting case when the denominator is zero."}, {"q": "Two non-vertical lines are parallel when:", "o": ["Their y-intercepts are equal always", "Their slopes are reciprocals", "Their slopes multiply to −1", "Their slopes are equal"], "a": 3, "e": "Distinct non-vertical parallel lines have equal slopes."}, {"q": "Two non-vertical lines are perpendicular when:", "o": ["m₁m₂ = 1", "m₁ + m₂ = 0", "m₁ = m₂", "m₁m₂ = −1"], "a": 3, "e": "The condition for perpendicular lines is that the product of their slopes is −1."}, {"q": "Find the slope of the line 3x + 2y − 5 = 0.", "o": ["3/2", "2/3", "−3/2", "−2/3"], "a": 2, "e": "Rearrange: 2y = −3x + 5, so y = −(3/2)x + 5/2. The slope is −3/2."}, {"q": "Find the equation of the line parallel to 3x + 2y − 5 = 0 and passing through (1, 2).", "o": ["3x + 2y − 7 = 0", "2x + 3y − 7 = 0", "3x + 2y + 7 = 0", "3x − 2y + 1 = 0"], "a": 0, "e": "A parallel line has form 3x + 2y + k = 0. Substituting (1, 2) gives 3 + 4 + k = 0, so k = −7."}, {"q": "A line has slope −2. What is the slope of a line perpendicular to it?", "o": ["−2", "−1/2", "2", "1/2"], "a": 3, "e": "For perpendicular lines m₁m₂ = −1. Thus (−2)m₂ = −1, giving m₂ = 1/2."}, {"q": "Which is the standard equation of a circle with centre (h, k) and radius r?", "o": ["x² + y² + h + k = r", "(x − h)² + (y − k)² = r²", "(x + h)² + (y + k)² = r", "(x − h) + (y − k) = r²"], "a": 1, "e": "The standard circle equation is (x − h)² + (y − k)² = r²."}, {"q": "Find the equation of a circle with centre (2, −3) and radius 4.", "o": ["(x − 2)² + (y + 3)² = 16", "(x − 2)² + (y − 3)² = 4", "(x + 2)² + (y + 3)² = 16", "(x + 2)² + (y − 3)² = 16"], "a": 0, "e": "Substitute h = 2, k = −3 and r = 4 into (x − h)² + (y − k)² = r²."}, {"q": "For x² + y² + 6x − 8y − 11 = 0, what is the centre of the circle?", "o": ["(−3, 4)", "(3, −4)", "(−6, 8)", "(6, −8)"], "a": 0, "e": "Compare with x² + y² + 2gx + 2fy + c = 0. Here g = 3 and f = −4, so centre = (−g, −f) = (−3, 4)."}, {"q": "For x² + y² + 6x − 8y − 11 = 0, what is the radius?", "o": ["4", "7", "5", "6"], "a": 3, "e": "Here g = 3, f = −4 and c = −11. Radius = √(g² + f² − c) = √(9 + 16 + 11) = √36 = 6."}, {"q": "A circle has centre at the origin and radius 5. Its equation is:", "o": ["x² + y² = 10", "(x − 5)² + (y − 5)² = 25", "x² + y² = 5", "x² + y² = 25"], "a": 3, "e": "For centre (0, 0), x² + y² = r². With r = 5, the equation is x² + y² = 25."}, {"q": "In the general circle equation x² + y² + 2gx + 2fy + c = 0, the centre is:", "o": ["(2g, 2f)", "(g, f)", "(−g, −f)", "(−2g, −2f)"], "a": 2, "e": "Comparing the general equation with the expanded standard form gives centre (−g, −f)."}, {"q": "Find the centre of x² + y² − 4x + 6y − 12 = 0.", "o": ["(−4, 6)", "(−2, 3)", "(2, −3)", "(4, −6)"], "a": 2, "e": "Here 2g = −4 and 2f = 6, so g = −2 and f = 3. The centre is (−g, −f) = (2, −3)."}, {"q": "Find the radius of x² + y² − 4x + 6y − 12 = 0.", "o": ["5", "4", "6", "3"], "a": 0, "e": "g = −2, f = 3 and c = −12. Radius = √(g² + f² − c) = √(4 + 9 + 12) = √25 = 5."}, {"q": "Find the slope of the line joining (2, 3) and (6, 11).", "o": ["1", "2", "3", "4"], "a": 1, "e": "m = (11 − 3)/(6 − 2) = 8/4 = 2."}, {"q": "A straight line makes an angle of 30° with the positive x-axis. What is its slope?", "o": ["1/√3", "1", "√3", "0"], "a": 0, "e": "The slope is tan θ. Therefore m = tan 30° = 1/√3."}, {"q": "If two lines have slopes 2 and −1/3, what is tan of the acute angle between them?", "o": ["2/3", "3/7", "7", "1/7"], "a": 2, "e": "tan θ = |(m₂ − m₁)/(1 + m₁m₂)| = |(−1/3 − 2)/(1 − 2/3)| = |(−7/3)/(1/3)| = 7."}]}, {"t": "Differential Calculus", "s": "Module 4", "u": "Limits, derivatives, differentiation rules and second derivatives", "q": [{"q": "Evaluate limₓ→₂ (3x + 1).", "o": ["8", "7", "5", "6"], "a": 1, "e": "For a polynomial or linear function, direct substitution is valid: 3(2) + 1 = 7."}, {"q": "Evaluate limₓ→₋₁ (x² + 3x + 2).", "o": ["1", "−2", "0", "2"], "a": 2, "e": "Substitute x = −1: (−1)² + 3(−1) + 2 = 1 − 3 + 2 = 0."}, {"q": "Evaluate limₓ→₂ (x² − 4)/(x − 2).", "o": ["0", "6", "2", "4"], "a": 3, "e": "Factor x² − 4 = (x − 2)(x + 2). For x ≠ 2, the expression simplifies to x + 2, whose limit is 4."}, {"q": "Evaluate limₓ→₃ (x² − 9)/(x − 3).", "o": ["3", "9", "12", "6"], "a": 3, "e": "Factor x² − 9 = (x − 3)(x + 3). The limit is the value of x + 3 at x = 3, which is 6."}, {"q": "The standard trigonometric limit limₓ→₀ (sin x)/x is:", "o": ["0", "1", "−1", "Does not exist"], "a": 1, "e": "A standard limit used in differential calculus is limₓ→₀ sin x/x = 1, with x measured in radians."}, {"q": "Evaluate limₓ→₁ (x³ − 1)/(x − 1).", "o": ["3", "2", "4", "1"], "a": 0, "e": "Factor x³ − 1 = (x − 1)(x² + x + 1). The limit is 1² + 1 + 1 = 3."}, {"q": "Evaluate limₓ→₂ (x⁴ − 16)/(x − 2).", "o": ["8", "32", "16", "24"], "a": 1, "e": "Factor x⁴ − 16 = (x − 2)(x + 2)(x² + 4). At x = 2, the remaining product is 4 × 8 = 32."}, {"q": "Evaluate limₓ→₃ (x² + 2x + 5).", "o": ["24", "20", "18", "14"], "a": 1, "e": "Direct substitution gives 3² + 2(3) + 5 = 9 + 6 + 5 = 20."}, {"q": "The limit of a function as x approaches a describes:", "o": ["The value the function approaches near x = a", "The derivative at x = a", "Only the largest value of the function", "Always the value of the function at x = a"], "a": 0, "e": "A limit describes the value approached by a function as x gets close to a point; it need not equal the function’s value at that point."}, {"q": "Which expression gives the derivative by first principles?", "o": ["limₓ→₀ f(x)/x", "f(x + h) + f(x)", "f(x) × h", "limₕ→₀ [f(x + h) − f(x)]/h"], "a": 3, "e": "The derivative from first principles is f′(x) = limₕ→₀ [f(x + h) − f(x)]/h."}, {"q": "The derivative of a constant k with respect to x is:", "o": ["1", "x", "k", "0"], "a": 3, "e": "A constant does not change when x changes. Hence its derivative is zero."}, {"q": "Using the power rule, d/dx (xⁿ) is:", "o": ["xⁿ/n", "n xⁿ", "n xⁿ⁻¹", "xⁿ⁻¹"], "a": 2, "e": "The power rule states d(xⁿ)/dx = n xⁿ⁻¹."}, {"q": "The derivative of eˣ is:", "o": ["x eˣ⁻¹", "ln x", "eˣ", "1/x"], "a": 2, "e": "The exponential function eˣ is its own derivative: d(eˣ)/dx = eˣ."}, {"q": "The derivative of ln x is:", "o": ["x", "eˣ", "ln x", "1/x"], "a": 3, "e": "For x > 0, d(ln x)/dx = 1/x."}, {"q": "The derivative of sin x is:", "o": ["cos x", "−sin x", "tan x", "−cos x"], "a": 0, "e": "The standard derivative is d(sin x)/dx = cos x."}, {"q": "The derivative of cos x is:", "o": ["sin x", "−sin x", "cos x", "−cos x"], "a": 1, "e": "The standard derivative is d(cos x)/dx = −sin x."}, {"q": "The derivative of tan x is:", "o": ["−sec²x", "cosec²x", "sec²x", "−cosec²x"], "a": 2, "e": "The standard derivative is d(tan x)/dx = sec²x."}, {"q": "The derivative of cot x is:", "o": ["sec²x", "−cosec²x", "cosec²x", "−sec²x"], "a": 1, "e": "The standard derivative is d(cot x)/dx = −cosec²x."}, {"q": "Differentiate y = 5x³ − 2x + 7.", "o": ["15x² + 7", "5x² − 2", "15x³ − 2", "15x² − 2"], "a": 3, "e": "Differentiate each term: 5·3x² − 2 + 0 = 15x² − 2."}, {"q": "Differentiate y = x² sin x.", "o": ["2x sin x + x² cos x", "x² cos x − 2x sin x", "2x cos x", "2x + cos x"], "a": 0, "e": "Use the product rule: (x²)′sin x + x²(sin x)′ = 2x sin x + x² cos x."}, {"q": "If y = u(x)v(x), which is the product rule?", "o": ["y′ = u′v + uv′", "y′ = (u′v − uv′)/v²", "y′ = u + v", "y′ = u′v′"], "a": 0, "e": "The product rule is derivative of the first times the second, plus the first times derivative of the second: u′v + uv′."}, {"q": "If y = u(x)/v(x), which is the quotient rule?", "o": ["y′ = u′v + uv′", "y′ = u/v²", "y′ = (u′v − uv′)/v²", "y′ = v′/u′"], "a": 2, "e": "The quotient rule is (u′v − uv′)/v², where v ≠ 0."}, {"q": "For y = (x² + 1)/(x − 1), what is y′ at x = 2?", "o": ["0", "3", "1", "−1"], "a": 3, "e": "Using the quotient rule, y′ = [2x(x − 1) − (x² + 1)]/(x − 1)². At x = 2 this is (4 − 5)/1 = −1."}, {"q": "Find the second derivative of y = x⁴ − 3x² + 2x.", "o": ["12x² − 6", "24x² − 6", "4x³ − 6x + 2", "12x³ − 6x"], "a": 0, "e": "First derivative: y′ = 4x³ − 6x + 2. Differentiating again gives y″ = 12x² − 6."}, {"q": "Find the second derivative of y = ln x.", "o": ["1/x²", "1/x", "−1/x²", "−1/x"], "a": 2, "e": "First derivative is 1/x = x⁻¹. Differentiating again gives −x⁻² = −1/x²."}]}];
+const NOTES = [{"t": "Matrices and Determinants", "i": "A matrix is a rectangular arrangement of elements in rows and columns. The order is rows × columns. Matrices are used to organize data and solve systems of linear equations.", "s": [["Types of matrices", ["Row matrix: exactly one row. Column matrix: exactly one column.", "Square matrix: same number of rows and columns. Zero matrix: every entry is zero.", "Diagonal matrix: all off-diagonal entries are zero. Scalar matrix: diagonal entries are equal. Identity matrix: diagonal entries are 1 and all other entries are 0.", "Two matrices are equal only when they have the same order and corresponding elements are equal."]], ["Transpose and operations", ["Transpose Aᵀ: interchange rows and columns. If A is m × n, Aᵀ is n × m; (Aᵀ)ᵀ = A.", "Addition and subtraction are defined only for matrices of the same order; operate on corresponding entries.", "Scalar multiplication: multiply every element by the scalar.", "For AB, the number of columns of A must equal the number of rows of B. If A is m × p and B is p × n, AB is m × n."]], ["Determinants, minors and cofactors", ["For a 2 × 2 matrix [[a,b],[c,d]], |A| = ad − bc.", "For a 3 × 3 matrix, expand along a row or column using signed minors/cofactors.", "Minor Mᵢⱼ: delete row i and column j, then take the determinant of what remains.", "Cofactor Cᵢⱼ = (−1)ⁱ⁺ʲ Mᵢⱼ. The sign pattern begins + − + / − + − / + − +."]], ["Adjoint, inverse and Cramer’s rule", ["adj(A) is the transpose of the cofactor matrix.", "A⁻¹ = adj(A)/|A|. The inverse exists only if |A| ≠ 0. A matrix with determinant zero is singular.", "For two unknowns, D is the determinant of the coefficient matrix; Dx and Dy replace the relevant coefficient column by constants. x = Dx/D and y = Dy/D.", "Cramer’s rule also applies to three equations in three unknowns when the coefficient determinant is non-zero."]]], "x": "Check matrix dimensions before adding or multiplying. In determinant and inverse questions, calculate signs carefully. In Cramer’s rule, keep the order of columns consistent when forming Dx, Dy and Dz."}, {"t": "Trigonometry", "i": "Trigonometry studies relationships between angles and side ratios. In this module, angles, standard ratios, quadrant signs, reduction formulae and compound-angle identities are important.", "s": [["Angles and basic ratios", ["Acute: 0°–90°; right: 90°; obtuse: 90°–180°; straight: 180°; reflex: 180°–360°; complete: 360°.", "sin θ = opposite/hypotenuse; cos θ = adjacent/hypotenuse; tan θ = opposite/adjacent.", "Reciprocal identities: cosec θ = 1/sin θ; sec θ = 1/cos θ; cot θ = 1/tan θ.", "Quotient identities: tan θ = sin θ/cos θ; cot θ = cos θ/sin θ."]], ["Standard values and identities", ["sin 30° = 1/2; cos 60° = 1/2; sin 45° = cos 45° = 1/√2; tan 45° = 1.", "Pythagorean relations: sin²θ + cos²θ = 1; 1 + tan²θ = sec²θ; 1 + cot²θ = cosec²θ.", "If one ratio of an acute angle is given, use the Pythagorean identity and positivity of all acute-angle ratios to find the others."]], ["ASTC and reduction formulae", ["ASTC: All ratios are positive in quadrant I; sine is positive in II; tangent is positive in III; cosine is positive in IV.", "sin(180° − θ) = sin θ; cos(180° − θ) = −cos θ; tan(180° − θ) = −tan θ.", "sin(180° + θ) = −sin θ; cos(180° + θ) = −cos θ; tan(180° + θ) = tan θ.", "sin(360° − θ) = −sin θ; cos(360° − θ) = cos θ; tan(360° − θ) = −tan θ.", "Co-function examples: sin(90° − θ) = cos θ and cos(90° − θ) = sin θ."]], ["Compound angles", ["sin(A + B) = sin A cos B + cos A sin B.", "sin(A − B) = sin A cos B − cos A sin B.", "cos(A + B) = cos A cos B − sin A sin B.", "cos(A − B) = cos A cos B + sin A sin B.", "tan(A + B) = (tan A + tan B)/(1 − tan A tan B); tan(A − B) = (tan A − tan B)/(1 + tan A tan B)."]]], "x": "Before choosing a sign, identify the quadrant. For reduction formulae, first rewrite the angle using 90°, 180°, 270° or 360°, then apply the sign and reference angle."}, {"t": "Coordinate Geometry", "i": "Coordinate geometry connects algebra with points, lines and circles on the Cartesian plane.", "s": [["Slope and equations of straight lines", ["Slope through (x₁,y₁) and (x₂,y₂): m = (y₂ − y₁)/(x₂ − x₁), provided x₂ ≠ x₁.", "A horizontal line has slope 0; a vertical line has undefined slope.", "Slope-point form: y − y₁ = m(x − x₁). Slope-intercept form: y = mx + c.", "For ax + by + c = 0, the slope is −a/b when b ≠ 0."]], ["Angles and special line relationships", ["If θ is the inclination of a line, m = tan θ.", "Angle between two lines: tan θ = |(m₂ − m₁)/(1 + m₁m₂)|, when the denominator is non-zero.", "Parallel non-vertical lines have equal slopes: m₁ = m₂.", "Perpendicular non-vertical lines satisfy m₁m₂ = −1.", "A line parallel to ax + by + c = 0 has form ax + by + k = 0. A perpendicular line can be written bx − ay + k = 0."]], ["Circles", ["Standard equation: (x − h)² + (y − k)² = r², where centre is (h,k) and radius is r.", "A circle centred at the origin has equation x² + y² = r².", "General equation: x² + y² + 2gx + 2fy + c = 0.", "From the general equation, centre = (−g, −f) and radius = √(g² + f² − c)."]]], "x": "For line equations, find the slope first and then apply the point condition. For a circle in general form, compare coefficients carefully: 2g is the x coefficient and 2f is the y coefficient."}, {"t": "Differential Calculus", "i": "Differential calculus studies limits and rates of change. Differentiation gives the derivative, while successive differentiation produces second and higher derivatives.", "s": [["Limits", ["limₓ→ₐ f(x) describes the value approached by f(x) as x approaches a.", "For continuous polynomial expressions, direct substitution is usually valid.", "Factorisation is useful when direct substitution gives 0/0; cancel the common factor and then substitute.", "Important standard limit: limₓ→₀ (sin x)/x = 1, with x in radians.", "For n a positive integer, limₓ→ₐ (xⁿ − aⁿ)/(x − a) = n aⁿ⁻¹."]], ["Meaning and standard derivatives", ["Derivative from first principles: f′(x) = limₕ→₀ [f(x+h) − f(x)]/h.", "d(k)/dx = 0; d(xⁿ)/dx = n xⁿ⁻¹; d(eˣ)/dx = eˣ; d(ln x)/dx = 1/x.", "d(sin x)/dx = cos x; d(cos x)/dx = −sin x; d(tan x)/dx = sec²x.", "d(cosec x)/dx = −cosec x cot x; d(sec x)/dx = sec x tan x; d(cot x)/dx = −cosec²x."]], ["Rules of differentiation", ["Constant multiple: d[kf(x)]/dx = kf′(x). Sum/difference: d[f ± g]/dx = f′ ± g′.", "Product rule: d(uv)/dx = u′v + uv′.", "Quotient rule: d(u/v)/dx = (u′v − uv′)/v², for v ≠ 0."]], ["Second derivatives", ["The second derivative is the derivative of the first derivative: y″ = d²y/dx² = d(y′)/dx.", "Differentiate once to find y′, then differentiate the result again to find y″.", "Example: y = x⁴ − 3x² + 2x gives y′ = 4x³ − 6x + 2 and y″ = 12x² − 6.", "Example: y = ln x gives y′ = 1/x and y″ = −1/x²."]]], "x": "For limits, try substitution first; if it gives 0/0, factorise. For derivatives, identify whether the expression needs the power, product or quotient rule before calculating. Trigonometric derivative formulae assume angles are in radians."}];
+
+/* ----- Subjects and sections (first year, first semester) ----- */
+/* ----- Departments, years and semesters -----
+   A subject is kept once per semester it is taught in, so each semester's files stay with that semester. ----- */
+const DEPT_ICON = {
+  print: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="7" rx="2"/><path d="M7 14v6h10v-6"/></svg>',
+  comp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
+  eee: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>'
+};
+const SEC_ICON = {
+  files: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>',
+  notes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15H6z"/><path d="M9 11h6M9 15h6M9 7h2"/></svg>',
+  quiz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>'
+};
+const DEPTS = [
+  {id: 'print', name: 'Printing Technology', c: 'violet'},
+  {id: 'comp', name: 'Computer Engineering', c: 'teal'},
+  {id: 'eee', name: 'Electrical and Electronics Engineering', c: 'amber'}
+];
+const SUBJ = {
+  maths: {name: 'Mathematics', ic: 'Σ', c: 'blue', sec: [{id: 'workbook', name: 'Workbook', k: 'files'}, {id: 'questions', name: 'Question classes', k: 'quiz'}, {id: 'notes', name: 'Notes', k: 'notes'}]},
+  python: {name: 'Python programming', ic: 'Py', c: 'teal', sec: [{id: 'classes', name: 'Classes', k: 'files'}, {id: 'lab', name: 'Lab', k: 'files'}]},
+  physics: {name: 'Physics', ic: 'Ph', c: 'violet', sec: [{id: 'notes', name: 'Notes', k: 'files'}, {id: 'classes', name: 'Classes', k: 'files'}, {id: 'lab', name: 'Physics lab', k: 'files'}]},
+  english: {name: 'English', ic: 'En', c: 'amber', sec: [{id: 'tests', name: 'Tests', k: 'files'}]},
+  it: {name: 'Computer IT skills', ic: 'IT', c: 'green', sec: [{id: 'lab', name: 'Lab', k: 'files'}]},
+  cad: {name: 'CAD graphics', ic: 'CAD', c: 'slate', sec: [{id: 'notes', name: 'Notes', k: 'files'}, {id: 'classnotes', name: 'Class notes', k: 'files'}, {id: 'classes', name: 'Classes', k: 'files'}, {id: 'lab', name: 'CAD lab', k: 'files'}]},
+  chemistry: {name: 'Chemistry', ic: 'Ch', c: 'green', sec: [{id: 'notes', name: 'Notes', k: 'files'}, {id: 'classes', name: 'Classes', k: 'files'}, {id: 'lab', name: 'Chemistry lab', k: 'files'}]}
+};
+/* Subjects for each semester. First year = semesters 1 and 2. Edit these lists when more subjects are known. */
+function subjectsFor(dept, y, n) {
+  if (y !== 1) return [];
+  if (n === 2) return ['maths', 'physics', 'chemistry'];
+  return dept === 'comp' ? ['maths', 'python', 'physics', 'english', 'it', 'cad', 'chemistry'] : ['maths', 'physics', 'english', 'cad', 'chemistry'];
+}
+const SEMS = [];
+DEPTS.forEach(d => [1, 2, 3].forEach(y => [1, 2].forEach(k => {
+  const n = (y - 1) * 2 + k;
+  SEMS.push({id: d.id + '-y' + y + 's' + n, dept: d.id, y: y, n: n, subs: subjectsFor(d.id, y, n)});
+})));
+/* Mathematics after the first semester has no question bank or built-in notes, only files */
+function sectionsFor(key, m) {
+  const all = SUBJ[key].sec;
+  if (key !== 'maths' || (m.y === 1 && m.n === 1)) return all;
+  return [all[0], {id: 'notes', name: 'Notes', k: 'files'}];
+}
+const INST = [];
+SEMS.forEach(m => m.subs.forEach(key => {
+  const t = SUBJ[key], d = DEPTS.find(x => x.id === m.dept), where = d.name + ', Year ' + m.y + ', Semester ' + m.n;
+  INST.push({id: m.id + '.' + key, key: key, sem: m.id, dept: m.dept, name: t.name, ic: t.ic, c: t.c, sec: sectionsFor(key, m), where: where, label: where + ': ' + t.name});
+}));
+const semById = id => SEMS.find(m => m.id === id);
+const semName = m => 'Year ' + m.y + ', Semester ' + m.n;
+const deptById = id => DEPTS.find(d => d.id === id);
+const semOf = sid => semById(sid.split('.')[0]);
+/* The first-year Mathematics that holds the question bank and built-in notes */
+const FIRST_MATHS = 'comp-y1s1.maths';
+const LEGACY = ['maths', 'python', 'physics', 'english', 'it', 'cad'];
+/* Files saved before departments existed belong to Computer Engineering, Year 1, Semester 1 */
+function legacyFix(f) {
+  if (LEGACY.indexOf(f.s) !== -1) { f.s = 'comp-y1s1.' + f.s; persistFile(f).catch(() => {}); }
+}
+const CATS = [['all', 'All'], ['docs', 'Documents'], ['photo', 'Photos'], ['video', 'Videos'], ['audio', 'Audio'], ['other', 'Other']];
+const TEXT = /\.(txt|md|csv|json|log|py|xml|html?|js|css)$/i;
+
+/* ----- Helpers ----- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c]);
+const nav = o => 'data-r="' + esc(JSON.stringify(o)) + '"';
+const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+const ext = n => (/\.([a-z0-9]{1,8})$/i.exec(n) || ['', ''])[1].toLowerCase();
+const size = n => n < 1024 ? n + ' B' : n < 1048576 ? Math.round(n / 1024) + ' KB' : (n / 1048576).toFixed(1) + ' MB';
+const when = t => new Date(t).toLocaleDateString(undefined, {day: 'numeric', month: 'short', year: 'numeric'});
+const subj = id => INST.find(x => x.id === id);
+const sect = (s, c) => { const x = subj(s); return x ? x.sec.find(y => y.id === c) : undefined; };
+const kind = f => {
+  const e = ext(f.name), t = f.type || '';
+  if (/^video\//.test(t) || /^(mp4|mov|webm|m4v|mkv|avi|3gp)$/.test(e)) return 'video';
+  if (/^image\//.test(t) || /^(jpe?g|png|gif|webp|heic|bmp|svg)$/.test(e)) return 'photo';
+  if (/^audio\//.test(t) || /^(mp3|m4a|wav|ogg|aac|flac)$/.test(e)) return 'audio';
+  if (/pdf|word|sheet|presentation|^text\//.test(t) || /^(pdf|docx?|pptx?|xlsx?|odt|rtf|txt|md|csv)$/.test(e)) return 'docs';
+  return 'other';
+};
+const terms = q => q.toLowerCase().trim().split(/\s+/).filter(Boolean).slice(0, 6);
+const hit = (hay, ts) => ts.every(t => hay.indexOf(t) !== -1);
+const snip = t => (t.length > 150 ? t.slice(0, 150) + '…' : t);
+
+/* ----- Search indexes ----- */
+const QS = [];
+BANK.forEach((m, mi) => m.q.forEach((x, qi) => QS.push({id: mi + '-' + qi, mi, n: qi + 1, x, h: [m.t, x.q, x.o.join(' '), x.e].join(' ').toLowerCase()})));
+const Q = id => { const p = id.split('-').map(Number); return {mi: p[0], x: BANK[p[0]].q[p[1]]}; };
+const NI = [];
+NOTES.forEach((n, mi) => n.s.forEach(([h, b]) => NI.push({mi, h, b, t: [n.t, n.i, h].concat(b).join(' ').toLowerCase()})));
+const SI = [];
+INST.forEach(x => x.sec.forEach(c => SI.push({s: x.id, c: c.id, k: c.k, sn: x.name, cn: c.name, where: x.where, h: (x.name + ' ' + c.name + ' ' + x.where).toLowerCase()})));
+
+/* ----- Saved progress (this browser only) ----- */
+let P = {quiz: null, hist: []};
+try { P = Object.assign(P, JSON.parse(localStorage.getItem('studyHub')) || {}); } catch (e) {}
+const saveP = () => { try { localStorage.setItem('studyHub', JSON.stringify(P)); } catch (e) {} };
+
+/* ----- Files: stored in IndexedDB, or kept in memory if the browser refuses ----- */
+let files = [], db = null, memMode = false, url = null, R = {v: 'home'}, depth = 0, DIR = 1;
+const ui = {hq: '', q: '', cat: 'all'}, rv = {q: '', mod: 'all', n: 20};
+function openDB() {
+  return new Promise((ok, no) => {
+    if (!window.indexedDB) return no(new Error('no database'));
+    const r = indexedDB.open('studyHub', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('files', {keyPath: 'id'});
+    r.onsuccess = () => ok(r.result);
+    r.onerror = () => no(r.error);
+  });
+}
+function run(mode, fn) {
+  return db.then(d => new Promise((ok, no) => {
+    const t = d.transaction('files', mode), q = fn(t.objectStore('files'));
+    t.oncomplete = () => ok(q ? q.result : undefined);
+    t.onerror = t.onabort = () => no(t.error || new Error('database'));
+  }));
+}
+const persistFile = f => memMode ? Promise.resolve() : run('readwrite', s => s.put(f));
+const removeFile = id => memMode ? Promise.resolve() : run('readwrite', s => s.delete(id));
+async function loadFiles() {
+  try { db = openDB(); await db; files = (await run('readonly', s => s.getAll())) || []; files.forEach(legacyFix); }
+  catch (e) { memMode = true; files = []; }
+}
+
+/* ----- Navigation (Back works on phones and computers) ----- */
+function go(r, replace) {
+  DIR = replace ? -1 : 1;
+  try { history[replace ? 'replaceState' : 'pushState'](r, ''); if (!replace) depth++; } catch (e) {}
+  ui.hq = '';
+  if (r.q != null) { rv.q = String(r.q); rv.n = 20; }
+  R = r;
+  render();
+  window.scrollTo(0, 0);
+}
+function back() {
+  if (depth > 0) { try { history.back(); return; } catch (e) {} }
+  go(parentOf(R), true);
+}
+window.addEventListener('popstate', e => {
+  depth = Math.max(0, depth - 1);
+  DIR = -1;
+  R = e.state || {v: 'home'};
+  render();
+});
+function parentOf(r) {
+  if (r.v === 'viewer') { const f = files.find(x => x.id === r.id); return f ? {v: 'section', s: f.s, c: f.c} : {v: 'home'}; }
+  if (r.v === 'section') return {v: 'subject', s: r.s};
+  if (r.v === 'questions') return {v: 'subject', s: r.s || FIRST_MATHS};
+  if (r.v === 'subject') { const m = semOf(r.s); return m ? {v: 'semester', id: m.id} : {v: 'home'}; }
+  if (r.v === 'semester') { const m = semById(r.id); return m ? {v: 'dept', id: m.dept} : {v: 'home'}; }
+  return {v: 'home'};
+}
+function title() {
+  if (R.v === 'dept') { const d = deptById(R.id); return d ? d.name : 'Department'; }
+  if (R.v === 'semester') { const m = semById(R.id); return m ? semName(m) : 'Semester'; }
+  if (R.v === 'subject' && subj(R.s)) return subj(R.s).name;
+  if (R.v === 'section' && sect(R.s, R.c)) return sect(R.s, R.c).name;
+  if (R.v === 'questions') return 'Question classes';
+  if (R.v === 'viewer') { const f = files.find(x => x.id === R.id); return f ? f.name : 'File'; }
+  return 'Polytechnic Study Hub';
+}
+function render(noAnim) {
+  if (url) { URL.revokeObjectURL(url); url = null; }
+  const v = R.v, app = $('#app');
+  app.innerHTML = v === 'dept' ? deptView() : v === 'semester' ? semesterView() : v === 'subject' ? subjectView() : v === 'section' ? sectionView() : v === 'questions' ? questionsView() : v === 'viewer' ? viewerView() : homeView();
+  $('#back').hidden = v === 'home';
+  $('#ttl').textContent = title();
+  if (!noAnim) {
+    app.classList.remove('go-fwd', 'go-back');
+    void app.offsetWidth;
+    app.classList.add(DIR > 0 ? 'go-fwd' : 'go-back');
+    app.querySelectorAll('.hero, .wrap > *, .grid > *, .list > *, .files > *').forEach((el, i) => {
+      if (i < 16) { el.classList.add('rise'); el.style.setProperty('--i', i); }
+    });
+  }
+  if (v === 'section') listFiles();
+  asScopeSync();
+  document.body.classList.toggle('in-quiz', v === 'questions' && (R.t || 'practice') === 'practice' && !!P.quiz && (!P.quiz.paused || P.quiz.done));
+  if (v === 'viewer') loadViewer();
+  if (v === 'questions' && R.t === 'review') reviewList();
+}
+function redraw() { const y = window.scrollY; render(true); window.scrollTo(0, y); }
+
+/* ----- Home ----- */
+function homeView() {
+  const q = ui.hq.trim();
+  return '<div class="home-top"><section class="hero"><h2>Choose your department</h2><p>Pick a department to open its years, semesters and subjects.</p></section>' +
+    '<div class="home-tools"><input id="hq" class="search" type="search" placeholder="Search everything" aria-label="Search everything" value="' + esc(ui.hq) + '">' + assistState() + '</div></div>' +
+    '<div class="wrap home"><div id="hres">' + (q ? results(q) : homeCards()) + '</div></div>';
+}
+function homeCards() {
+  const resume = P.quiz && !P.quiz.done ? '<div class="resume"><div><b>Test in progress</b><small>' + esc(P.quiz.mode === 'mock' ? 'Full mock test' : BANK[P.quiz.mi].t) +
+    ', question ' + (P.quiz.pos + 1) + ' of ' + P.quiz.ids.length + '</small></div><button class="btn sm" data-a="resume">Resume</button></div>' : '';
+  const rows = DEPTS.map(d => '<button class="row dept c-' + d.c + '" ' + nav({v: 'dept', id: d.id}) + '><span class="ico">' + DEPT_ICON[d.id] + '</span><span class="ft"><b>' + esc(d.name) +
+    '</b></span><span class="chev">›</span></button>').join('');
+  return resume + '<div class="list depts">' + rows + '</div><p class="foot">Works in any browser. Your files and scores stay in this browser on this device.</p>';
+}
+const row = (a, b, r) => '<button class="row" ' + nav(r) + '><span class="ft"><b>' + esc(a) + '</b><small>' + esc(b) + '</small></span><span class="chev">›</span></button>';
+const frow = (f, place) => '<button class="frow" ' + nav({v: 'viewer', id: f.id}) + '><span class="badge k-' + kind(f) + '">' + esc((ext(f.name) || 'file').slice(0, 4).toUpperCase()) +
+  '</span><span class="ft"><b>' + esc(f.name) + '</b><small>' + (place ? esc(place) + ', ' : '') + size(f.size) + '</small></span><span class="chev">›</span></button>';
+function results(q) {
+  const ts = terms(q);
+  const sx = SI.filter(x => hit(x.h, ts)), qx = QS.filter(x => hit(x.h, ts)), nx = NI.filter(x => hit(x.t, ts)), fx = files.filter(f => hit(f.name.toLowerCase(), ts));
+  if (!sx.length && !qx.length && !nx.length && !fx.length) return '<p class="empty">Nothing matches “' + esc(q) + '”.</p>';
+  let h = '';
+  if (sx.length) h += '<h3 class="fh">Sections</h3><div class="list">' + sx.slice(0, 8).map(x => row(x.sn, x.cn + ' (' + x.where + ')', x.k === 'quiz' ? {v: 'questions', s: x.s, t: 'practice'} : {v: 'section', s: x.s, c: x.c})).join('') + '</div>';
+  if (qx.length) h += '<h3 class="fh">Questions (' + qx.length + ')</h3><div class="list">' + qx.slice(0, 5).map(x => row(BANK[x.mi].s + ', question ' + x.n, snip(x.x.q), {v: 'questions', s: FIRST_MATHS, t: 'review', q})).join('') +
+    '</div><div class="stack"><button class="btn ghost" ' + nav({v: 'questions', s: FIRST_MATHS, t: 'review', q}) + '>Open all in Review</button></div>';
+  if (nx.length) h += '<h3 class="fh">Revision notes (' + nx.length + ')</h3><div class="list">' + nx.slice(0, 5).map(x => row(BANK[x.mi].s + ', ' + x.h, snip(x.h + '. ' + x.b.join(' ')), {v: 'section', s: FIRST_MATHS, c: 'notes', m: x.mi})).join('') + '</div>';
+  if (fx.length) h += '<h3 class="fh">My files (' + fx.length + ')</h3><div class="files">' + fx.slice(0, 8).map(f => frow(f, subj(f.s).where + ' (' + subj(f.s).name + ')')).join('') + '</div>';
+  return h;
+}
+
+/* ----- Semester page: the subjects in that semester ----- */
+function semesterView() {
+  const m = semById(R.id);
+  if (!m) return '<p class="wrap empty">Not found.</p>';
+  const d = deptById(m.dept), subs = INST.filter(x => x.sem === m.id);
+  const head = '<section class="hero small"><h2>' + esc(semName(m)) + '</h2><p>' + esc(d.name) + ', ' + (subs.length ? plural(subs.length, 'subject') : 'no subjects added yet') + '</p></section>';
+  if (!subs.length) return head + '<div class="wrap"><p class="empty">The subjects for ' + esc(semName(m)) + ' have not been added yet.</p></div>';
+  return head + '<div class="wrap"><div class="list">' + subs.map(x => '<button class="row c-' + x.c + '" ' + nav({v: 'subject', s: x.id}) + '><span class="ico">' + esc(x.ic) +
+    '</span><span class="ft"><b>' + esc(x.name) + '</b><small>' + esc(x.sec.map(c => c.name).join(', ')) + '</small></span><span class="chev">›</span></button>').join('') + '</div></div>';
+}
+/* Department page: its three years, two semesters each */
+function deptView() {
+  const d = deptById(R.id);
+  if (!d) return '<p class="wrap empty">Not found.</p>';
+  const years = [1, 2, 3].map(y => '<h3 class="fh">Year ' + y + '</h3><div class="grid">' + SEMS.filter(m => m.dept === d.id && m.y === y).map(m => {
+    const subs = INST.filter(x => x.sem === m.id), n = subs.length;
+    return '<button class="subj c-' + d.c + '" ' + nav({v: 'semester', id: m.id}) + '><span class="ico">S' + m.n + '</span><b>Semester ' + m.n + '</b><small>' +
+      esc(n ? subs.slice(0, 3).map(x => x.name).join(', ') + (n > 3 ? ' and ' + (n - 3) + ' more' : '') : 'Subjects coming soon') + '</small><em>' + (n ? plural(n, 'subject') : 'No subjects yet') + '</em></button>';
+  }).join('') + '</div>').join('');
+  return '<section class="hero small"><h2>' + esc(d.name) + '</h2><p>3 years, 6 semesters</p></section><div class="wrap">' + years + '</div>';
+}
+
+/* ----- Subject and section pages ----- */
+function info(s, c) {
+  if (c.k === 'quiz') return QS.length + ' questions, ' + (P.hist.length ? plural(P.hist.length, 'test') + ' completed' : 'no tests yet');
+  const n = files.filter(f => f.s === s.id && f.c === c.id).length;
+  const fx = n ? plural(n, 'file') : 'No files yet';
+  return c.k === 'notes' ? NOTES.length + ' note sets, ' + fx.toLowerCase() : fx;
+}
+function subjectView() {
+  const s = subj(R.s);
+  if (!s) return '<p class="wrap empty">Not found.</p>';
+  return '<section class="hero small"><h2>' + esc(s.name) + '</h2><p>' + plural(s.sec.length, 'section') + '</p></section>' +
+    '<div class="wrap"><div class="list">' + s.sec.map(c => '<button class="row c-' + s.c + '" ' +
+      nav(c.k === 'quiz' ? {v: 'questions', s: s.id, t: 'practice'} : {v: 'section', s: s.id, c: c.id}) + '><span class="ico">' +
+      (c.k === 'quiz' ? SEC_ICON.quiz : c.k === 'notes' ? SEC_ICON.notes : SEC_ICON.files) + '</span><span class="ft"><b>' + esc(c.name) + '</b><small>' + esc(info(s, c)) +
+      '</small></span><span class="chev">›</span></button>').join('') + '</div></div>';
+}
+function sectionView() {
+  const s = subj(R.s), c = sect(R.s, R.c);
+  if (!s || !c || c.k === 'quiz') return '<p class="wrap empty">Not found.</p>';
+  const notes = c.k !== 'notes' ? '' : '<div>' + NOTES.map((n, i) => '<details' + (R.m === i ? ' open' : '') + '><summary><small>' + esc(BANK[i].s) + '</small><b>' + esc(n.t) + '</b></summary>' +
+    '<p class="intro">' + esc(n.i) + '</p>' + n.s.map(x => '<h4>' + esc(x[0]) + '</h4><ul>' + x[1].map(b => '<li>' + esc(b) + '</li>').join('') + '</ul>').join('') +
+    '<p class="tip"><b>Exam tip:</b> ' + esc(n.x) + '</p><button class="btn sm" data-a="start" data-m="' + i + '">Practice this module</button></details>').join('') + '</div><h3 class="fh">Your files here</h3>';
+  return '<div class="wrap"><div class="sechead"><small>' + esc(s.name) + '</small><h2>' + esc(c.name) + '</h2></div>' + notes +
+    '<div class="bar"><button class="btn" data-a="upload">Add files</button><input id="fq" class="search" type="search" placeholder="Search files" aria-label="Search files" value="' + esc(ui.q) + '"></div>' +
+    '<p class="hint">Add any file type, several at once. Files stay in this browser on this device.</p>' +
+    '<div class="chips" id="chips"></div><p class="meta" id="sum"></p><div id="fl" class="files"></div></div>';
+}
+function chips() {
+  const here = files.filter(f => f.s === R.s && f.c === R.c);
+  return CATS.map(([k, l]) => '<button class="chip" aria-pressed="' + (ui.cat === k) + '" data-a="cat" data-c="' + k + '">' + l + ' ' +
+    (k === 'all' ? here.length : here.filter(f => kind(f) === k).length) + '</button>').join('');
+}
+function listFiles() {
+  const el = $('#fl');
+  if (!el) return;
+  const here = files.filter(f => f.s === R.s && f.c === R.c), ts = terms(ui.q);
+  const shown = here.filter(f => (ui.cat === 'all' || kind(f) === ui.cat) && hit(f.name.toLowerCase(), ts));
+  $('#sum').textContent = here.length ? plural(here.length, 'file') + (memMode ? '. This browser cannot keep files between visits.' : '') : 'Nothing saved in this section yet.';
+  $('#chips').innerHTML = chips();
+  el.innerHTML = shown.length ? shown.map(f => frow(f)).join('') : '<p class="empty">' + (here.length ? 'No files match these filters.' : 'No files here yet. Tap Add files.') + '</p>';
+}
+
+/* ----- Viewer: preview, download, move, delete ----- */
+function viewerView() {
+  const f = files.find(x => x.id === R.id);
+  if (!f) return '<div class="wrap"><p class="empty">This file is no longer here.</p></div>';
+  const opts = INST.map(s => '<optgroup label="' + esc(s.label) + '">' + s.sec.filter(c => c.k !== 'quiz').map(c => '<option value="' + s.id + '|' + c.id + '"' +
+    (s.id === f.s && c.id === f.c ? ' selected' : '') + '>' + esc(c.name) + '</option>').join('') + '</optgroup>').join('');
+  return '<div class="wrap"><div id="pv" class="preview"><p>Loading…</p></div>' +
+    '<dl class="facts"><div><dt>Type</dt><dd>' + esc(f.type || (ext(f.name) ? '.' + ext(f.name) : 'File')) + '</dd></div><div><dt>Size</dt><dd>' + size(f.size) +
+    '</dd></div><div><dt>Added</dt><dd>' + when(f.added) + '</dd></div><div><dt>Section</dt><dd><select data-move="' + f.id + '" aria-label="Section for this file">' + opts + '</select></dd></div></dl>' +
+    '<div class="stack"><a id="dl" class="btn" href="#">Download</a><button class="btn ghost" data-a="open">Open in a new tab</button>' +
+    '<button class="btn danger" data-a="del" data-id="' + esc(f.id) + '">Delete file</button></div></div>';
+}
+function loadViewer() {
+  const f = files.find(x => x.id === R.id), box = $('#pv'), dl = $('#dl');
+  if (!f || !box) return;
+  url = URL.createObjectURL(f.blob);
+  dl.href = url;
+  dl.download = f.name;
+  const k = kind(f), n = f.name.toLowerCase();
+  if (k === 'photo') {
+    const img = new Image();
+    img.alt = f.name;
+    img.onerror = () => { box.innerHTML = '<p>This browser cannot show this picture. Use Download.</p>'; };
+    img.src = url;
+    box.innerHTML = '';
+    box.appendChild(img);
+  } else if (k === 'video') {
+    box.innerHTML = '<video src="' + url + '" controls playsinline preload="metadata"></video>';
+  } else if (k === 'audio') {
+    box.innerHTML = '<audio src="' + url + '" controls></audio>';
+  } else if (/pdf/.test(f.type) || /\.pdf$/.test(n)) {
+    box.innerHTML = '<iframe src="' + url + '" title="' + esc(f.name) + '"></iframe>';
+  } else if (TEXT.test(n) || /^text\//.test(f.type)) {
+    const rd = new FileReader();
+    rd.onload = () => { box.innerHTML = ''; const pre = document.createElement('pre'); pre.textContent = rd.result; box.appendChild(pre); };
+    rd.readAsText(f.blob.slice(0, 200000));
+  } else {
+    box.innerHTML = '<p>No preview for this file type. Use Download or Open in a new tab.</p>';
+  }
+}
+function moveFile(id, value) {
+  const f = files.find(x => x.id === id), parts = value.split('|');
+  if (!f || !sect(parts[0], parts[1])) return;
+  const old = [f.s, f.c];
+  f.s = parts[0];
+  f.c = parts[1];
+  persistFile(f).then(() => toast('Moved to ' + subj(f.s).name + ': ' + sect(f.s, f.c).name + '.'), () => { f.s = old[0]; f.c = old[1]; toast('Could not move this file.'); });
+}
+function deleteFile(id) {
+  removeFile(id).then(() => { files = files.filter(f => f.id !== id); toast('File deleted.'); back(); }, () => toast('Could not delete this file.'));
+}
+async function addFiles(list) {
+  if (R.v !== 'section') return toast('Open a section first.');
+  const s = R.s, c = R.c, bar = $('#sum');
+  let n = 0;
+  for (const f of list) {
+    const rec = {id: 'f' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7), s, c, name: f.name || 'File', type: f.type || '', size: f.size || 0, added: Date.now(), blob: f};
+    if (bar) bar.textContent = 'Saving ' + (n + 1) + ' of ' + list.length + ': ' + rec.name;
+    try { await persistFile(rec); files.push(rec); n++; }
+    catch (e) { toast('Could not save ' + rec.name + '. The browser may be out of space.'); break; }
+  }
+  if (R.v === 'section' && R.s === s && R.c === c) listFiles();
+  if (n) toast(n === 1 ? 'File saved.' : n + ' files saved.');
+}
+
+/* ----- Question classes (Mathematics): practice, mock test, review, progress ----- */
+function questionsView() {
+  const t = R.t || 'practice', q = P.quiz;
+  if (t === 'practice' && q && (!q.paused || q.done)) return '<div class="wrap">' + quizView() + '</div>';
+  const tabs = '<div class="tabs">' + [['practice', 'Practice'], ['review', 'Review'], ['progress', 'Progress']].map(x =>
+    '<button data-a="tab" data-t="' + x[0] + '" aria-selected="' + (t === x[0]) + '">' + x[1] + '</button>').join('') + '</div>';
+  return '<div class="wrap">' + tabs + (t === 'review' ? reviewView() : t === 'progress' ? progressView() : practiceView()) + '</div>';
+}
+function practiceView() {
+  const q = P.quiz;
+  const resume = q && !q.done ? '<div class="resume"><div><b>Test in progress</b><small>' + esc(q.mode === 'mock' ? 'Full mock test' : BANK[q.mi].t) +
+    ', question ' + (q.pos + 1) + ' of ' + q.ids.length + '</small></div><button class="btn sm" data-a="resume">Resume</button></div>' : '';
+  return resume + '<div class="mock"><h2>Full mock test</h2><p>100 marks: 25 questions from each module, mixed in batches of 10.</p>' +
+    '<button class="btn" data-a="mock">Start mock test</button></div><h3 class="fh">Practice by module</h3><div class="list">' +
+    BANK.map((m, i) => '<div class="mod"><small>' + esc(m.s) + ', 25 questions</small><b>' + esc(m.t) + '</b><p>' + esc(m.u) + '</p><div class="btns">' +
+      '<button class="btn sm" data-a="start" data-m="' + i + '">Start practice</button><button class="btn sm ghost" ' +
+      nav({v: 'section', s: R.s || FIRST_MATHS, c: 'notes', m: i}) + '>Notes</button></div></div>').join('') + '</div>';
+}
+function startQuiz(mode, mi) {
+  const ids = [];
+  if (mode === 'module') BANK[mi].q.forEach((_, qi) => ids.push(mi + '-' + qi));
+  else for (let i = 0; i < 25; i++) BANK.forEach((_, m) => ids.push(m + '-' + i));
+  if (P.quiz && !P.quiz.done) toast('Your earlier test was replaced.');
+  P.quiz = {mode, mi: mode === 'module' ? mi : -1, ids, pos: 0, ans: {}, sub: false, res: [], done: false, paused: false};
+  saveP();
+  go({v: 'questions', t: 'practice'});
+}
+function qcard(id, no) {
+  const q = P.quiz, item = Q(id), x = item.x, pick = q.ans[id];
+  const opts = x.o.map((t, o) => {
+    let c = 'opt';
+    if (pick === o) c += ' sel';
+    if (q.sub && o === x.a) c += ' ok';
+    if (q.sub && pick === o && o !== x.a) c += ' bad';
+    return '<button class="' + c + '" data-a="pick" data-id="' + id + '" data-o="' + o + '"' + (q.sub ? ' disabled' : '') + '><b>' + 'ABCD'[o] + '</b><span>' + esc(t) + '</span></button>';
+  }).join('');
+  const why = q.sub ? '<p class="why"><b>' + (pick === x.a ? 'Correct.' : pick === undefined ? 'Not answered.' : 'Incorrect.') + ' Answer: ' + 'ABCD'[x.a] + '.</b> ' + esc(x.e) + '</p>' : '';
+  return '<article class="card"><small>Question ' + no + ', ' + esc(BANK[item.mi].s) + '</small><h3>' + esc(x.q) + '</h3><div class="opts">' + opts + '</div>' + why + '</article>';
+}
+function quizView() {
+  const q = P.quiz;
+  if (q.done) return resultView();
+  const total = q.ids.length, ids = q.ids.slice(q.pos, q.pos + 10), end = q.pos + ids.length, last = end >= total;
+  const cards = ids.map((id, j) => qcard(id, q.pos + j + 1)).join('');
+  let dock;
+  if (!q.sub) {
+    const n = ids.filter(id => q.ans[id] !== undefined).length;
+    dock = '<div class="dock"><span>' + n + ' of ' + ids.length + ' answered</span><button class="btn" data-a="submit">Submit ' + ids.length + ' answers</button></div>';
+  } else {
+    const sc = q.res.slice(-ids.length).filter(r => r.c === r.a).length;
+    dock = '<div class="dock"><span>Batch score: ' + sc + ' of ' + ids.length + '</span><button class="btn" data-a="' + (last ? 'finish' : 'next') + '">' +
+      (last ? 'See final result' : 'Next 10 questions') + '</button></div>';
+  }
+  return '<div class="qhead"><div><h2>' + esc(q.mode === 'mock' ? 'Full mock test' : BANK[q.mi].t) + '</h2><small>Questions ' + (q.pos + 1) + ' to ' + end +
+    ' of ' + total + '</small></div><button class="btn ghost sm" data-a="pause">Save and exit</button></div>' +
+    '<div class="pbar"><i style="width:' + Math.round(end / total * 100) + '%"></i></div>' + cards + dock;
+}
+function choose(id, o) { const q = P.quiz; if (!q || q.sub) return; q.ans[id] = o; saveP(); redraw(); }
+function submit() {
+  const q = P.quiz;
+  if (!q || q.sub) return;
+  q.ids.slice(q.pos, q.pos + 10).forEach(id => { const it = Q(id); q.res.push({m: it.mi, c: q.ans[id] === undefined ? null : q.ans[id], a: it.x.a}); });
+  q.sub = true;
+  saveP();
+  redraw();
+}
+function nextBatch() { const q = P.quiz; if (!q) return; q.pos += 10; q.sub = false; saveP(); redraw(); window.scrollTo(0, 0); }
+function finish() {
+  const q = P.quiz;
+  if (!q) return;
+  const score = q.res.filter(r => r.c === r.a).length;
+  q.done = true;
+  q.paused = false;
+  P.hist.unshift({t: q.mode === 'mock' ? 'Full mock test' : BANK[q.mi].t, s: score, n: q.ids.length, d: Date.now()});
+  P.hist = P.hist.slice(0, 50);
+  saveP();
+  redraw();
+  window.scrollTo(0, 0);
+}
+function resultView() {
+  const q = P.quiz, score = q.res.filter(r => r.c === r.a).length, total = q.ids.length, pct = Math.round(score / total * 100);
+  const msg = score >= Math.ceil(total * 0.75) ? 'Strong work. Keep practising.' : score >= Math.ceil(total * 0.5) ? 'Good effort. Review the explanations and try again.' : 'Revise the notes for the weaker modules, then try again.';
+  const per = BANK.map((m, mi) => {
+    const rs = q.res.filter(r => r.m === mi);
+    return rs.length ? '<div><b>' + esc(m.t) + '</b><small>' + rs.filter(r => r.c === r.a).length + ' of ' + rs.length + ' correct</small></div>' : '';
+  }).join('');
+  return '<section class="result"><small>' + (q.mode === 'mock' ? 'Full mock test' : 'Module practice') + ' completed</small>' +
+    '<div class="score">' + score + ' <span>of ' + total + '</span></div><div class="pbar"><i style="width:' + pct + '%"></i></div>' +
+    '<p>' + pct + '% correct. ' + msg + '</p><div class="per">' + per + '</div>' +
+    '<div class="stack"><button class="btn" data-a="retry">Try again</button><button class="btn ghost" data-a="leave">Back to practice</button></div></section>';
+}
+function reviewView() {
+  const mods = [['all', 'All modules']].concat(BANK.map((m, i) => [String(i), m.s]));
+  return '<h2 class="fh">Review answers</h2><p class="muted">Every question with its correct answer and explanation.</p>' +
+    '<input id="rq" class="search" type="search" placeholder="Search questions, options or explanations" aria-label="Search questions" value="' + esc(rv.q) + '">' +
+    '<div class="chips">' + mods.map(m => '<button class="chip" aria-pressed="' + (rv.mod === m[0]) + '" data-a="rmod" data-m="' + m[0] + '">' + esc(m[1]) + '</button>').join('') +
+    '</div><p class="meta" id="rc"></p><div id="rl"></div>';
+}
+function reviewCard(item) {
+  const opts = item.x.o.map((t, o) => '<div class="opt' + (o === item.x.a ? ' ok' : '') + '"><b>' + 'ABCD'[o] + '</b><span>' + esc(t) + '</span>' +
+    (o === item.x.a ? '<em>correct</em>' : '') + '</div>').join('');
+  return '<article class="card"><small>' + esc(BANK[item.mi].s) + ', question ' + item.n + '</small><h3>' + esc(item.x.q) + '</h3><div class="opts">' + opts +
+    '</div><p class="why">' + esc(item.x.e) + '</p></article>';
+}
+function reviewList() {
+  const el = $('#rl');
+  if (!el) return;
+  const ts = terms(rv.q);
+  const all = QS.filter(x => (rv.mod === 'all' || String(x.mi) === rv.mod) && hit(x.h, ts));
+  const shown = all.slice(0, rv.n);
+  $('#rc').textContent = all.length + ' of ' + QS.length + ' questions';
+  el.innerHTML = shown.length ? shown.map(x => reviewCard(x)).join('') +
+    (all.length > shown.length ? '<button class="btn ghost block" data-a="more" style="margin-top:12px">Show ' + Math.min(20, all.length - shown.length) + ' more</button>' : '') :
+    '<p class="empty">No questions match this search.</p>';
+}
+function progressView() {
+  const h = P.hist, avg = h.length ? Math.round(h.reduce((a, x) => a + x.s / x.n, 0) / h.length * 100) + '%' : '—';
+  return '<h2 class="fh">Your progress</h2><div class="stats"><div><b>' + h.length + '</b><small>Tests completed</small></div><div><b>' +
+    (h.length ? h[0].s + ' of ' + h[0].n : '—') + '</b><small>Latest score</small></div><div><b>' + avg + '</b><small>Average</small></div></div>' +
+    (h.length ? '<div class="list">' + h.map(x => '<div class="hrow"><span><b>' + esc(x.t) + '</b><small>' + when(x.d) + '</small></span><b>' + x.s + ' of ' + x.n +
+      '</b></div>').join('') + '</div><div class="stack"><button class="btn ghost" data-a="reset">Reset progress</button></div>' : '<p class="empty">No completed tests yet.</p>') +
+    '<p class="muted" style="margin-top:14px">Scores are saved in this browser on this device.</p>';
+}
+
+/* ----- Actions and events ----- */
+function twice(el, text, fn) {
+  if (el.getAttribute('data-armed')) return fn();
+  const label = el.textContent;
+  el.setAttribute('data-armed', '1');
+  el.textContent = text;
+  setTimeout(() => { if (document.body.contains(el) && el.getAttribute('data-armed')) { el.removeAttribute('data-armed'); el.textContent = label; } }, 4000);
+}
+function act(a, el) {
+  const d = el.dataset;
+  if (a.indexOf('as-') === 0 || a.indexOf('assist-') === 0) return asAct(a, el);
+  if (a === 'start') startQuiz('module', +d.m);
+  else if (a === 'mock') startQuiz('mock', -1);
+  else if (a === 'pick') choose(d.id, +d.o);
+  else if (a === 'submit') submit();
+  else if (a === 'next') nextBatch();
+  else if (a === 'finish') finish();
+  else if (a === 'retry') startQuiz(P.quiz.mode, P.quiz.mi);
+  else if (a === 'leave') { P.quiz = null; saveP(); redraw(); }
+  else if (a === 'pause') { P.quiz.paused = true; saveP(); redraw(); }
+  else if (a === 'resume') { P.quiz.paused = false; saveP(); if (R.v !== 'questions') go({v: 'questions', t: 'practice'}); else redraw(); }
+  else if (a === 'tab') { R.t = d.t; history.replaceState(R, ''); redraw(); }
+  else if (a === 'rmod') { rv.mod = d.m; rv.n = 20; redraw(); }
+  else if (a === 'more') { rv.n += 20; reviewList(); }
+  else if (a === 'reset') twice(el, 'Tap again to reset', () => { P.hist = []; P.quiz = null; saveP(); toast('Progress reset.'); redraw(); });
+  else if (a === 'upload') $('#pick').click();
+  else if (a === 'cat') { ui.cat = d.c; listFiles(); }
+  else if (a === 'del') twice(el, 'Tap again to delete', () => deleteFile(d.id));
+  else if (a === 'open') { if (url) window.open(url, '_blank'); }
+}
+document.addEventListener('click', e => {
+  const el = e.target.closest ? e.target.closest('[data-r],[data-a]') : null;
+  if (!el) return;
+  if (el.hasAttribute('data-r')) return go(JSON.parse(el.getAttribute('data-r')));
+  act(el.getAttribute('data-a'), el);
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'hq') { ui.hq = t.value; const q = ui.hq.trim(); $('#hres').innerHTML = q ? results(q) : homeCards(); }
+  else if (t.id === 'fq') { ui.q = t.value; listFiles(); }
+  else if (t.id === 'rq') { rv.q = t.value; rv.n = 20; reviewList(); }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'pick') { const list = Array.from(t.files); t.value = ''; addFiles(list); }
+  else if (t.getAttribute && t.getAttribute('data-move')) moveFile(t.getAttribute('data-move'), t.value);
+  else if (t.id === 'as-scope') asChoice = t.value;
+});
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer && e.dataTransfer.files.length) addFiles(Array.from(e.dataTransfer.files)); });
+
+/* ----- Short message at the bottom of the screen ----- */
+let toastTimer = 0;
+function toast(msg) {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.className = 'on';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { el.className = ''; }, 2600);
+}
+
+/* ----- Study assistant: a side panel that answers from your notes, checking every note in the scope you choose ----- */
+const SYSTEM = "You are the study assistant inside a first-year polytechnic student's app. Answer from the student's notes. Be correct, clear and brief. Explain in your own words and never copy long passages from the notes. Name the note you used.";
+const NOT_FOUND = /^\s*NOT IN NOTES/i;
+const LIMIT = 15000000;
+const AS = {items: [], busy: false};
+const IMG = {jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', gif: 'image/gif', webp: 'image/webp'};
+const asStatus = m => { const el = $('#as-status'); if (el) el.textContent = m; };
+const b64 = blob => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result).split(',')[1]); r.onerror = () => no(r.error); r.readAsDataURL(blob); });
+const readText = blob => new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(String(r.result)); r.onerror = () => no(r.error); r.readAsText(blob.slice(0, 200000)); });
+const inflate = async bytes => new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+const decode = s => { const t = document.createElement('textarea'); t.innerHTML = s; return t.value; };
+const asScopeVal = () => ($('#as-scope') || {value: 'all'}).value;
+function noteKind(f) {
+  const e = ext(f.name), t = f.type || '';
+  if (t === 'application/pdf' || e === 'pdf') return 'pdf';
+  if (/^image\/(jpeg|png|gif|webp)$/.test(t) || IMG[e]) return 'image';
+  if (e === 'docx' || e === 'pptx') return 'office';
+  if (TEXT.test(f.name) || /^text\//.test(t)) return 'text';
+  return '';
+}
+/* Word and PowerPoint files are zip archives: read the text parts straight out of them */
+async function officeText(f) {
+  const buf = new Uint8Array(await f.blob.arrayBuffer()), dv = new DataView(buf.buffer);
+  let e = buf.length - 22;
+  while (e >= 0 && dv.getUint32(e, true) !== 0x06054b50) e--;
+  if (e < 0) throw new Error(f.name + ' could not be read. Save it as a PDF.');
+  const want = f.name.toLowerCase().endsWith('.docx') ? /^word\/document\.xml$/ : /^ppt\/slides\/slide\d+\.xml$/;
+  const parts = [];
+  let p = dv.getUint32(e + 16, true);
+  for (let i = 0; i < dv.getUint16(e + 10, true); i++) {
+    const nl = dv.getUint16(p + 28, true), name = new TextDecoder().decode(buf.subarray(p + 46, p + 46 + nl));
+    if (want.test(name)) {
+      const lo = dv.getUint32(p + 42, true), method = dv.getUint16(p + 10, true), size = dv.getUint32(p + 20, true);
+      const start = lo + 30 + dv.getUint16(lo + 26, true) + dv.getUint16(lo + 28, true);
+      const raw = buf.subarray(start, start + size);
+      parts.push({name: name, xml: new TextDecoder().decode(method === 8 ? await inflate(raw) : raw)});
+    }
+    p += 46 + nl + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
+  }
+  parts.sort((a, b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
+  return parts.map(x => decode(x.xml.replace(/<\/w:p>|<\/a:p>/g, '\n').replace(/<[^>]+>/g, ''))).join('\n\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+async function noteBlocks(f) {
+  const k = noteKind(f), label = {type: 'text', text: 'Note: ' + f.name};
+  if (k === 'pdf') return [label, {type: 'document', source: {type: 'base64', media_type: 'application/pdf', data: await b64(f.blob)}}];
+  if (k === 'image') return [label, {type: 'image', source: {type: 'base64', media_type: /^image\/(jpeg|png|gif|webp)$/.test(f.type || '') ? f.type : IMG[ext(f.name)], data: await b64(f.blob)}}];
+  const body = k === 'office' ? await officeText(f) : await readText(f.blob);
+  const cut = body.length > 80000;
+  return [{type: 'text', text: 'Note: ' + f.name + '\n\n' + body.slice(0, 80000) + (cut ? '\n\n[This note was shortened to fit. The rest was not sent.]' : '')}];
+}
+async function callAgent(blocks, ask, max) {
+  const key = localStorage.getItem('studyAgentKey');
+  if (!key) throw new Error('Add your API key first. It is in the box at the top of the assistant.');
+  const ctl = new AbortController(), timer = setTimeout(() => ctl.abort(), 90000);
+  let res;
+  try {
+  res = await fetch('https://api.anthropic.com/v1/messages', {
+    signal: ctl.signal,
+    method: 'POST',
+    headers: {'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true'},
+    body: JSON.stringify({model: localStorage.getItem('studyAgentModel') || 'claude-sonnet-5-5', max_tokens: max, system: SYSTEM,
+      messages: [{role: 'user', content: blocks.concat([{type: 'text', text: ask}])}]})
+  });
+  } catch (err) {
+    if (err.name === 'AbortError') throw new Error('The assistant took too long to answer. Try fewer notes.');
+    throw err;
+  } finally { clearTimeout(timer); }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error((data.error && data.error.message) || 'The assistant could not answer (error ' + res.status + ').');
+  return (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n').trim();
+}
+function scopeFiles() {
+  const inSection = R.v === 'section' && asScopeVal() === 'section';
+  return files.filter(f => !inSection || (f.s === R.s && f.c === R.c));
+}
+/* Batches stay under the request size limit and never hold more than six PDFs */
+function batchesOf(list) {
+  const out = [];
+  let cur = [], bytes = 0, pdfs = 0;
+  list.forEach(f => {
+    const pdf = noteKind(f) === 'pdf';
+    if (cur.length && (bytes + f.size > LIMIT || (pdf && pdfs >= 6))) { out.push(cur); cur = []; bytes = 0; pdfs = 0; }
+    cur.push(f);
+    bytes += f.size;
+    if (pdf) pdfs++;
+  });
+  if (cur.length) out.push(cur);
+  return out;
+}
+function instructionFor(kind, q) {
+  if (kind === 'doubts') return 'List the points in these notes that a first-year student is most likely to find unclear, as at most five short questions, one per line. If nothing needs explaining, reply exactly: NOT IN NOTES';
+  if (kind === 'clean') return 'Write a clean revision sheet from these notes: short headings, bullet points, key formulas or definitions, under 350 words, in your own words. If the notes have no study content, reply exactly: NOT IN NOTES';
+  return 'Student question: ' + q + '\nCheck every note above. Give the most correct and appropriate answer in plain language, under 180 words, and name the note you used. If none of these notes answer the question, reply exactly: NOT IN NOTES';
+}
+function synthInstruction(kind, q) {
+  if (kind === 'doubts') return 'These are partial lists from different notes. Merge them into one list of at most eight short questions, one per line, with no repeats.';
+  if (kind === 'clean') return 'These are partial revision sheets from different notes. Merge them into one clean revision sheet under 450 words, with headings and bullet points.';
+  return 'Student question: ' + q + '\nThese are partial answers, each from a different set of notes. Write the single most correct and appropriate answer in plain language, under 180 words. Name the notes used. Drop anything that contradicts the strongest answer.';
+}
+function generalInstruction(q) {
+  return 'The student asked: ' + q + '\nNone of their notes answer this. Answer from general knowledge, correctly and clearly, under 180 words.';
+}
+async function askAssist(kind, q) {
+  if (AS.busy) return;
+  if (!localStorage.getItem('studyAgentKey')) { asSetup(true); return asStatus('Add your API key first. It is in the box at the top of the assistant.'); }
+  const all = scopeFiles(), usable = all.filter(f => noteKind(f) && f.size <= LIMIT);
+  const skipped = all.filter(f => usable.indexOf(f) === -1).map(f => f.name);
+  if (!usable.length) return asStatus('No readable notes here yet. Use PDF, Word, PowerPoint, text or photo notes.');
+  AS.busy = true;
+  try {
+    const batches = batchesOf(usable), partials = [];
+    for (let i = 0; i < batches.length; i++) {
+      asStatus('Going through batch ' + (i + 1) + ' of ' + batches.length + ' (' + plural(batches[i].length, 'note') + ')…');
+      const blocks = [];
+      for (const f of batches[i]) blocks.push(...(await noteBlocks(f)));
+      partials.push(await callAgent(blocks, instructionFor(kind, q), kind === 'ask' ? 700 : 900));
+    }
+    const useful = partials.filter(p => !NOT_FOUND.test(p));
+    let answer;
+    if (!useful.length) {
+      if (kind !== 'ask') return asStatus('Nothing useful was found in these notes.');
+      asStatus('Not in your notes. Writing a general answer…');
+      answer = 'Not in your notes. General answer:\n' + (await callAgent([], generalInstruction(q), 700));
+    } else if (useful.length === 1) {
+      answer = useful[0];
+    } else {
+      asStatus('Choosing the most appropriate answer…');
+      answer = await callAgent([{type: 'text', text: useful.map((p, i) => 'Partial answer ' + (i + 1) + ':\n' + p).join('\n\n')}], synthInstruction(kind, q), 900);
+    }
+    AS.items.unshift({label: kind === 'ask' ? q : (kind === 'doubts' ? 'Doubts in your notes' : 'Clean note'), n: usable.length, a: answer});
+    AS.items = AS.items.slice(0, 12);
+    asPaint();
+    asStatus('Checked ' + plural(usable.length, 'note') + (skipped.length ? '. Not read: ' + skipped.join(', ') : '') + '.');
+  } catch (err) {
+    asStatus(err instanceof TypeError ? 'Could not reach the assistant. Check your internet connection.' : err.message);
+  } finally {
+    AS.busy = false;
+  }
+}
+function asPaint() {
+  const out = $('#as-out');
+  if (!out) return;
+  out.innerHTML = AS.items.map(it => '<div class="doubt"><b>' + esc(it.label) + '</b><div class="ag-txt">' + esc(it.a) + '</div><small>From ' + plural(it.n, 'note') + '</small></div>').join('');
+}
+let asChoice = null;
+function asScopeSync() {
+  const sel = $('#as-scope');
+  if (!sel) return;
+  const inSection = R.v === 'section';
+  sel.innerHTML = '<option value="section"' + (inSection ? '' : ' disabled') + '>Notes in this section</option><option value="all">All my notes</option>';
+  sel.value = inSection && asChoice !== 'all' ? 'section' : 'all';
+}
+function asSetup(show) { const s = $('#as-setup'); if (s) s.hidden = !show; }
+function asSync() {
+  const on = localStorage.getItem('assistOn') !== '0', open = !$('#assist').hidden;
+  $('#assist-btn').hidden = !on || open;
+}
+function asOpen(open) {
+  $('#assist').hidden = !open;
+  if (open) { asSetup(!localStorage.getItem('studyAgentKey')); asScopeSync(); }
+  asSync();
+}
+function assistSetOn(on) {
+  try { localStorage.setItem('assistOn', on ? '1' : '0'); } catch (e) {}
+  if (!on) $('#assist').hidden = true;
+  asSync();
+}
+function assistState() {
+  const on = localStorage.getItem('assistOn') !== '0';
+  return '<button class="assist-state' + (on ? ' on' : '') + '" data-a="assist-toggle" aria-pressed="' + on + '"><span class="lbl">Assistant</span><span class="sw" aria-hidden="true"></span><b>' + (on ? 'On' : 'Off') + '</b></button>';
+}
+function asAct(a, el) {
+  if (a === 'assist-open') return asOpen(true);
+  if (a === 'assist-close') return asOpen(false);
+  if (a === 'assist-off') { assistSetOn(false); return render(true); }
+  if (a === 'assist-toggle') { assistSetOn(localStorage.getItem('assistOn') === '0'); return render(true); }
+  if (a === 'as-key') return asSetup(($('#as-setup') || {hidden: false}).hidden);
+  if (a === 'as-save') {
+    const k = ($('#as-key') || {value: ''}).value.trim();
+    if (!k) return asStatus('Paste your API key first.');
+    try { localStorage.setItem('studyAgentKey', k); localStorage.setItem('studyAgentModel', $('#as-model').value); } catch (e) {}
+    $('#as-key').value = '';
+    asSetup(false);
+    return asStatus('Key saved on this device.');
+  }
+  const q = ($('#as-q') || {value: ''}).value.trim();
+  if (a === 'as-ask') return q ? askAssist('ask', q) : asStatus('Type your question first.');
+  if (a === 'as-doubts') return askAssist('doubts', '');
+  if (a === 'as-clean') return askAssist('clean', '');
+}
+function asInit() { asSetup(!localStorage.getItem('studyAgentKey')); asScopeSync(); asSync(); const m = $('#as-model'); if (m) m.value = localStorage.getItem('studyAgentModel') || 'claude-sonnet-5-5'; }
+
+/* ----- Entrance animation: particles drift together and form the logo, then the app appears ----- */
+function intro() {
+  const box = $('#intro'), cv = $('#intro-c');
+  if (!box || !cv || !cv.getContext) { if (box) box.remove(); return; }
+  const ctx = cv.getContext('2d');
+  const still = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const W = Math.round(innerWidth * dpr), H = Math.round(innerHeight * dpr);
+  cv.width = W;
+  cv.height = H;
+  // Draw the logo on a hidden canvas; its filled pixels become the particle targets
+  const off = document.createElement('canvas');
+  off.width = W;
+  off.height = H;
+  const oc = off.getContext('2d');
+  const size = Math.min(W * 0.46, H * 0.26);
+  oc.fillStyle = '#fff';
+  oc.textAlign = 'center';
+  oc.textBaseline = 'middle';
+  oc.font = '600 ' + Math.round(size) + 'px Georgia, "Times New Roman", serif';
+  oc.fillText('PS', W / 2, H / 2);
+  const px = oc.getImageData(0, 0, W, H).data;
+  const sample = step => {
+    const out = [];
+    for (let y = step >> 1; y < H; y += step) for (let x = step >> 1; x < W; x += step) {
+      if (px[(y * W + x) * 4 + 3] > 128) out.push([x, y]);
+    }
+    return out;
+  };
+  let step = Math.max(2, Math.round(size / 60)), targets = sample(step);
+  while (targets.length > 1600 && step < 40) { step++; targets = sample(step); }
+  while (targets.length < 500 && step > 2) { step--; targets = sample(step); }
+  const cols = ['#1f4d36', '#2e6b4a', '#4f9a6a', '#2d7f86', '#7fbf8a'];
+  const far = Math.max(W, H);
+  const P = targets.map(([x, y], i) => {
+    const a = Math.random() * Math.PI * 2, r = far * (0.6 + Math.random() * 0.5);
+    return {x0: W / 2 + Math.cos(a) * r, y0: H / 2 + Math.sin(a) * r, tx: x, ty: y,
+      d: 0.2 + Math.random() * 0.8, s: Math.random() * 6.3, z: (step > 4 ? 2 : 1.5) * dpr, c: cols[i % cols.length]};
+  });
+  const ease = k => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+  const paint = t => {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of P) {
+      const e = ease(Math.min(1, Math.max(0, (t - p.d) / 1.2)));
+      const wob = (1 - e) * Math.sin(t * 5 + p.s) * 10 * dpr;
+      ctx.globalAlpha = 0.3 + 0.7 * e;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(p.x0 + (p.tx - p.x0) * e + wob, p.y0 + (p.ty - p.y0) * e + wob * 0.5, p.z, p.z);
+    }
+    ctx.globalAlpha = 1;
+  };
+  let done = false, raf = 0, timer = 0;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    cancelAnimationFrame(raf);
+    clearTimeout(timer);
+    box.classList.add('out');
+    setTimeout(() => box.remove(), 600);
+  };
+  box.addEventListener('pointerdown', finish);
+  timer = setTimeout(finish, 4500);
+  if (still) { paint(9); setTimeout(finish, 1200); return; }
+  const t0 = performance.now();
+  const loop = now => {
+    const t = (now - t0) / 1000;
+    paint(t);
+    if (t >= 3.4) return finish();
+    raf = requestAnimationFrame(loop);
+  };
+  raf = requestAnimationFrame(loop);
+}
+
+/* ----- Start ----- */
+$('#back').onclick = back;
+asInit();
+history.replaceState({v: 'home'}, '');
+render();
+loadFiles().then(render);
+intro();
+
+/* installable app: install button, offline support, keep saved files */
+const installBtn = $('#install');
+let installEvent = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvent = e; installBtn.hidden = false; });
+installBtn.addEventListener('click', async () => {
+  const e = installEvent;
+  if (!e) return;
+  installEvent = null; installBtn.hidden = true;
+  e.prompt();
+  const choice = e.userChoice ? await e.userChoice : {outcome: 'dismissed'};
+  toast(choice.outcome === 'accepted' ? 'Study Hub added to your home screen.' : 'Install cancelled.');
+});
+window.addEventListener('appinstalled', () => { installEvent = null; installBtn.hidden = true; toast('Study Hub installed. Open it from your home screen.'); });
+if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) installBtn.hidden = true;
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+</script>
+</body>
+</html>
