@@ -3,21 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Polytechnic Study Hub</title>
-<meta name="description" content="Notes, question papers, practice tests and an AI study assistant for polytechnic students.">
-<meta name="theme-color" content="#1f4d36">
+<meta name="theme-color" content="#10243a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Study Hub">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="Study hub for first-year, first-semester polytechnic subjects: notes, classes, labs, tests and question practice.">
+<title>Polytechnic Study Hub</title>
+<link rel="apple-touch-icon" id="icon180">
 <style>
 
 :root{color-scheme:light;--g1:#1f4d36;--g2:#2e6b4a;--g3:#4f9a6a;--ink:#173127;--ink2:#56705f;--line:rgba(46,107,74,.16);--glass:rgba(255,255,255,.8);--shadow:0 14px 34px -18px rgba(23,49,39,.38);--ok:#1d7a48;--bad:#b2281f}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{background:#e8f4df}
+html{min-height:100%;background-color:#0b180e;background-image:linear-gradient(rgba(4,14,7,.22),rgba(4,14,7,.22)),url("./forest-background.jpg");background-position:center center;background-size:cover;background-repeat:no-repeat;background-attachment:fixed}
 body{margin:0;min-height:100vh;font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:transparent;-webkit-tap-highlight-color:transparent;overflow-x:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
@@ -26,16 +23,6 @@ h1,h2,h3,h4,p{margin:0}
 h2{font:600 26px/1.15 Georgia,"Times New Roman",serif;color:var(--g1)}
 h3.fh{font:600 19px/1.2 Georgia,"Times New Roman",serif;color:var(--g1);margin:26px 2px 10px}
 .muted,small{color:var(--ink2)}
-#scene{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-#scene svg{width:100%;height:100%;display:block}
-.cl{animation:drift 30s ease-in-out infinite alternate}
-.cl.cl2{animation-duration:40s;animation-direction:alternate-reverse}
-@keyframes drift{from{transform:translateX(-40px)}to{transform:translateX(50px)}}
-.shine path{animation:shine 5.5s ease-in-out infinite}
-.shine path:nth-child(2){animation-delay:-1.8s}
-.shine path:nth-child(3){animation-delay:-3.2s}
-.shine path:nth-child(4){animation-delay:-4.4s}
-@keyframes shine{0%,100%{opacity:.25;transform:translateX(0)}50%{opacity:1;transform:translateX(16px)}}
 .top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:8px;min-height:60px;padding:0 12px;background:rgba(31,77,54,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;box-shadow:0 8px 24px -14px rgba(10,35,25,.6)}
 .top h1{font:600 19px/1.2 Georgia,"Times New Roman",serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;letter-spacing:.01em}
 #back{flex:0 0 42px;height:42px;border:0;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;font-size:28px;line-height:1;transition:background .2s,transform .15s}
@@ -254,39 +241,12 @@ body.in-quiz .assist-btn{display:none}
 .assist-state{padding:0 12px;gap:7px;font-size:13px}
 }
 
-/* installed app: status-bar safe area, install button, no pull-to-refresh */
-html{overscroll-behavior-y:contain}
-.top{padding-top:env(safe-area-inset-top,0px)}
-#install{margin-left:auto;flex:0 0 auto;min-height:36px;padding:0 14px;border:1px solid rgba(255,255,255,.35);border-radius:12px;background:rgba(255,255,255,.16);color:#fff;font:650 14px/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;white-space:nowrap;cursor:pointer;transition:background .2s}
-#install:hover{background:rgba(255,255,255,.26)}
-#install[hidden]{display:none}
+@media (max-width: 640px){html{background-attachment:scroll}}
 </style>
 </head>
 <body>
-<div id="scene" aria-hidden="true"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="gSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6fbf1"/><stop offset=".55" stop-color="#e6f4dc"/><stop offset="1" stop-color="#d2eac4"/></linearGradient>
-<radialGradient id="gSun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffdf0"/><stop offset="1" stop-color="#fffdf0" stop-opacity="0"/></radialGradient>
-<linearGradient id="gFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3d9a7"/><stop offset="1" stop-color="#cfe9c1"/></linearGradient>
-<linearGradient id="gMid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#86c27f"/><stop offset="1" stop-color="#a6d79b"/></linearGradient>
-<linearGradient id="gField" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ea866"/><stop offset="1" stop-color="#77bb74"/></linearGradient>
-<linearGradient id="gWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9f2ee"/><stop offset="1" stop-color="#8ccfc4"/></linearGradient>
-</defs>
-<rect width="1440" height="900" fill="url(#gSky)"/>
-<circle cx="1110" cy="190" r="240" fill="url(#gSun)"/>
-<g class="cl" fill="#fff" opacity=".92"><ellipse cx="600" cy="170" rx="112" ry="26"/><ellipse cx="662" cy="148" rx="64" ry="36"/><ellipse cx="552" cy="158" rx="56" ry="26"/></g>
-<g class="cl cl2" fill="#fff" opacity=".78"><ellipse cx="800" cy="112" rx="92" ry="20"/><ellipse cx="855" cy="96" rx="50" ry="28"/></g>
-<path fill="url(#gFar)" d="M0 470C150 370 280 400 400 440C520 480 620 380 760 415C900 450 990 355 1130 392C1260 426 1350 372 1440 405V900H0Z"/>
-<path fill="url(#gMid)" d="M0 560C170 480 300 520 430 560C560 600 700 500 860 530C1010 560 1130 500 1270 520C1350 532 1400 515 1440 520V900H0Z"/>
-<g><ellipse cx="96" cy="520" rx="20" ry="30" fill="#5a9d5e"/><rect x="94" y="544" width="4" height="14" fill="#4b7d4f"/><ellipse cx="144" cy="536" rx="14" ry="22" fill="#66a866"/><rect x="142" y="554" width="3" height="10" fill="#4b7d4f"/><ellipse cx="1196" cy="520" rx="22" ry="32" fill="#5a9d5e"/><rect x="1194" y="546" width="4" height="15" fill="#4b7d4f"/><ellipse cx="1252" cy="534" rx="15" ry="23" fill="#66a866"/><rect x="1250" y="552" width="3" height="11" fill="#4b7d4f"/></g>
-<path fill="url(#gField)" d="M0 650C300 610 520 640 760 650C1000 660 1200 630 1440 640V900H0Z"/>
-<ellipse cx="610" cy="790" rx="430" ry="72" fill="url(#gWater)"/>
-<g class="shine" fill="none" stroke="#fff" stroke-linecap="round"><path d="M340 770h110" stroke-width="3" stroke-opacity=".75"/><path d="M520 800h150" stroke-width="2.5" stroke-opacity=".6"/><path d="M700 764h120" stroke-width="3" stroke-opacity=".7"/><path d="M820 812h90" stroke-width="2" stroke-opacity=".5"/></g>
-<g fill="#4f8f54"><ellipse cx="70" cy="752" rx="34" ry="52"/><rect x="66" y="798" width="8" height="34"/><ellipse cx="1376" cy="748" rx="38" ry="56"/><rect x="1371" y="798" width="9" height="36"/></g>
-<g fill="none" stroke="#3d7c44" stroke-width="3" stroke-linecap="round"><path d="M200 848l5-14 5 14"/><path d="M216 858l4-11 4 11"/><path d="M1180 850l5-14 5 14"/><path d="M1196 860l4-11 4 11"/></g>
-</svg></div>
 <div id="intro" aria-hidden="true"><canvas id="intro-c"></canvas><p class="intro-t">Polytechnic Study Hub</p><p class="intro-skip">Tap to skip</p></div>
-<header class="top"><button id="back" aria-label="Back" hidden>&#8249;</button><h1 id="ttl">Polytechnic Study Hub</h1><button id="install" type="button" hidden>Install app</button></header>
+<header class="top"><button id="back" aria-label="Back" hidden>&#8249;</button><h1 id="ttl">Polytechnic Study Hub</h1></header>
 <main id="app"></main>
 <input id="pick" type="file" multiple tabindex="-1" aria-hidden="true">
 <div id="toast" role="status" aria-live="polite"></div>
@@ -833,6 +793,32 @@ document.addEventListener('change', e => {
 document.addEventListener('dragover', e => e.preventDefault());
 document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer && e.dataTransfer.files.length) addFiles(Array.from(e.dataTransfer.files)); });
 
+/* ----- Install on a phone: name, icon and full-screen mode ----- */
+(function install() {
+  try {
+    const icon = s => {
+      const c = document.createElement('canvas');
+      c.width = c.height = s;
+      const x = c.getContext('2d');
+      x.fillStyle = '#10243a';
+      x.fillRect(0, 0, s, s);
+      x.fillStyle = '#f2f5f9';
+      x.font = '600 ' + Math.round(s * 0.42) + 'px Georgia, "Times New Roman", serif';
+      x.textAlign = 'center';
+      x.textBaseline = 'middle';
+      x.fillText('PS', s / 2, s * 0.54);
+      return c.toDataURL('image/png');
+    };
+    const m = {name: 'Polytechnic Study Hub', short_name: 'Study Hub', start_url: location.href.split('#')[0], display: 'standalone',
+      background_color: '#f2f5f9', theme_color: '#10243a', icons: [{src: icon(192), sizes: '192x192', type: 'image/png'}, {src: icon(512), sizes: '512x512', type: 'image/png'}]};
+    const l = document.createElement('link');
+    l.rel = 'manifest';
+    l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], {type: 'application/manifest+json'}));
+    document.head.appendChild(l);
+    document.getElementById('icon180').href = icon(180);
+  } catch (e) {}
+})();
+
 /* ----- Short message at the bottom of the screen ----- */
 let toastTimer = 0;
 function toast(msg) {
@@ -1115,23 +1101,6 @@ history.replaceState({v: 'home'}, '');
 render();
 loadFiles().then(render);
 intro();
-
-/* installable app: install button, offline support, keep saved files */
-const installBtn = $('#install');
-let installEvent = null;
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvent = e; installBtn.hidden = false; });
-installBtn.addEventListener('click', async () => {
-  const e = installEvent;
-  if (!e) return;
-  installEvent = null; installBtn.hidden = true;
-  e.prompt();
-  const choice = e.userChoice ? await e.userChoice : {outcome: 'dismissed'};
-  toast(choice.outcome === 'accepted' ? 'Study Hub added to your home screen.' : 'Install cancelled.');
-});
-window.addEventListener('appinstalled', () => { installEvent = null; installBtn.hidden = true; toast('Study Hub installed. Open it from your home screen.'); });
-if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) installBtn.hidden = true;
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
-if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 </script>
 </body>
 </html>
