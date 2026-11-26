@@ -1,6 +1,6 @@
 // Study Hub service worker: lets the app open and work without internet.
 // Change CACHE (for example to study-hub-v2) whenever you upload new files.
-const CACHE = 'study-hub-v1';
+const CACHE = 'study-hub-v2';
 const SHELL = [
   './',
   './index.html',

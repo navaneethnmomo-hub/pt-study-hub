@@ -1,0 +1,29 @@
+POLYTECHNIC STUDY HUB 2026.2: UPDATE STEPS
+
+WHAT IS NEW
+- Home screen dashboard: a greeting with your name, stats (files saved, tests done, best score), a Continue card that opens where you stopped, and your recent files.
+- Focus timer: 25 minutes of study, then a 5 minute break. Start, pause, reset, or switch to a break.
+- Settings (the sliders icon at the top right): your name, Standard or Large text, reduce motion, clear the recent files list, and delete all saved files.
+- Share button on files, on phones that support sharing.
+- An offline notice when the connection drops. Files and practice still work.
+- Import 2026 revision pack button on the home screen.
+- Better text sizes and a subtle paper texture.
+
+UPDATE YOUR GITHUB REPOSITORY
+1. Open your repository on GitHub.
+2. Tap Add file, then Upload files.
+3. Drag index.html and sw.js from this pack into the upload area. If GitHub asks, choose to replace the old files.
+4. Tap Commit changes. Wait one or two minutes.
+5. Open the app address, reload, then close the app completely and open it again.
+
+IMPORT THE 2026 REVISION PACK (inside the app)
+1. Download Kerala_2026_Revision_Pack.zip to your phone.
+2. Open the app and tap Import 2026 revision pack on the home screen.
+3. Choose the zip. Each file goes to its subject: Physics and Mathematics in every department's first semester, and Python programming in Computer Engineering.
+4. Importing the same zip again does not make copies.
+
+OPTIONAL: A REAL BACKGROUND PHOTO
+Download one free photo of mountains and greenery, rename it background.jpg (small letters), and upload it to the repository next to index.html. The app shows it automatically. If the file is missing, the drawn scene stays.
+
+IMPORTANT
+Do not upload copyrighted books to the repository. A public GitHub Pages site lets anyone download its files.
