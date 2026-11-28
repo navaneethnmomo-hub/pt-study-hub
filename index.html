@@ -544,6 +544,15 @@ function syncContent() {
 const Q = id => { const p = id.split('-').map(Number); return {mi: p[0], x: BANK[p[0]].q[p[1]]}; };
 let NI = [];
 buildIndex();
+let ALLQ = [], ALLN = [];
+function buildAll() {
+  ALLQ = []; ALLN = [];
+  Object.keys(CONTENT).forEach(k => {
+    CONTENT[k].bank.forEach((m, mi) => m.q.forEach((x, qi) => ALLQ.push({k, mi, n: qi + 1, x, h: [m.t, x.q, x.o.join(' '), x.e].join(' ').toLowerCase()})));
+    CONTENT[k].notes.forEach((n, mi) => n.s.forEach(([h, b]) => ALLN.push({k, mi, h, b, t: [n.t, n.i, h].concat(b).join(' ').toLowerCase()})));
+  });
+}
+buildAll();
 
 const SI = [];
 INST.forEach(x => x.sec.forEach(c => SI.push({s: x.id, c: c.id, k: c.k, sn: x.name, cn: c.name, where: x.where, h: (x.name + ' ' + c.name + ' ' + x.where).toLowerCase()})));
@@ -658,13 +667,13 @@ const frow = (f, place) => '<button class="frow" ' + nav({v: 'viewer', id: f.id}
   '</span><span class="ft"><b>' + esc(f.name) + '</b><small>' + (place ? esc(place) + ', ' : '') + size(f.size) + '</small></span><span class="chev">›</span></button>';
 function results(q) {
   const ts = terms(q);
-  const sx = SI.filter(x => hit(x.h, ts)), qx = QS.filter(x => hit(x.h, ts)), nx = NI.filter(x => hit(x.t, ts)), fx = files.filter(f => hit(f.name.toLowerCase(), ts));
+  const sx = SI.filter(x => hit(x.h, ts)), qx = ALLQ.filter(x => hit(x.h, ts)), nx = ALLN.filter(x => hit(x.t, ts)), fx = files.filter(f => hit(f.name.toLowerCase(), ts));
   if (!sx.length && !qx.length && !nx.length && !fx.length) return '<p class="empty">Nothing matches “' + esc(q) + '”.</p>';
   let h = '';
   if (sx.length) h += '<h3 class="fh">Sections</h3><div class="list">' + sx.slice(0, 8).map(x => row(x.sn, x.cn + ' (' + x.where + ')', x.k === 'quiz' ? {v: 'questions', s: x.s, t: 'practice'} : {v: 'section', s: x.s, c: x.c})).join('') + '</div>';
-  if (qx.length) h += '<h3 class="fh">Questions (' + qx.length + ')</h3><div class="list">' + qx.slice(0, 5).map(x => row(BANK[x.mi].s + ', question ' + x.n, snip(x.x.q), {v: 'questions', s: FIRST_MATHS, t: 'review', q})).join('') +
-    '</div><div class="stack"><button class="btn ghost" ' + nav({v: 'questions', s: FIRST_MATHS, t: 'review', q}) + '>Open all in Review</button></div>';
-  if (nx.length) h += '<h3 class="fh">Revision notes (' + nx.length + ')</h3><div class="list">' + nx.slice(0, 5).map(x => row(BANK[x.mi].s + ', ' + x.h, snip(x.h + '. ' + x.b.join(' ')), {v: 'section', s: FIRST_MATHS, c: 'notes', m: x.mi})).join('') + '</div>';
+  if (qx.length) h += '<h3 class="fh">Questions (' + qx.length + ')</h3><div class="list">' + qx.slice(0, 5).map(x => row(SUBJ[x.k].name + ', ' + CONTENT[x.k].bank[x.mi].s + ', question ' + x.n, snip(x.x.q), {v: 'questions', s: 'comp-y1s1.' + x.k, t: 'review', q})).join('') +
+    '</div><div class="stack"><button class="btn ghost" ' + nav({v: 'questions', s: 'comp-y1s1.' + (qx.length ? qx[0].k : 'maths'), t: 'review', q}) + '>Open all in Review</button></div>';
+  if (nx.length) h += '<h3 class="fh">Revision notes (' + nx.length + ')</h3><div class="list">' + nx.slice(0, 5).map(x => row(SUBJ[x.k].name + ', ' + CONTENT[x.k].bank[x.mi].s + ', ' + x.h, snip(x.h + '. ' + x.b.join(' ')), {v: 'section', s: 'comp-y1s1.' + x.k, c: 'notes', m: x.mi})).join('') + '</div>';
   if (fx.length) h += '<h3 class="fh">My files (' + fx.length + ')</h3><div class="files">' + fx.slice(0, 8).map(f => frow(f, subj(f.s).where + ' (' + subj(f.s).name + ')')).join('') + '</div>';
   return h;
 }
@@ -1410,7 +1419,7 @@ function settingsHtml() {
     '<div class="field switch-row"><span>Reduce motion</span><button class="sw-btn" data-x="motion" aria-pressed="false" aria-label="Reduce motion"></button></div>' +
     '<div class="stack" style="margin-top:18px"><button class="btn ghost block" data-x="clear-recent">Clear recent files list</button>' +
     '<button class="btn danger block" data-x="delete-all">Delete all saved files</button></div>' +
-    '<p class="muted" style="margin-top:16px">Polytechnic Study Hub, version 2026.2. Your files and scores stay in this browser on this device.</p><p class="muted" style="margin-top:10px"><a href="privacy.html" style="color:var(--g2);font-weight:650">Privacy policy</a></p></section></div>';
+    '<p class="muted" style="margin-top:16px">Polytechnic Study Hub, version 2026.3, with physics and Python notes. Your files and scores stay in this browser on this device.</p><p class="muted" style="margin-top:10px"><a href="privacy.html" style="color:var(--g2);font-weight:650">Privacy policy</a></p></section></div>';
 }
 function buildSettings() {
   document.body.insertAdjacentHTML('beforeend', settingsHtml());
