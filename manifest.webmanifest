@@ -27,5 +27,10 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "categories": [
+    "education"
+  ],
+  "prefer_related_applications": false,
+  "dir": "ltr"
 }
